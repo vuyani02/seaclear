@@ -1,0 +1,93 @@
+/* General Styles */
+body {
+    font-family: Arial, sans-serif;
+}
+
+.header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10;
+    background-color: lightblue;
+    color: white;
+    font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+    font-size: small;
+    ;
+}
+
+.beach-item.beach-1{
+    background-size: cover;
+   background-position: center;
+}
+.beach-item:hover {
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.3);
+    border: #007BFF;
+}
+.beach-item {
+    padding: 15px;
+    margin-bottom: 10px;
+    border-radius: 10px;
+    color: black;
+    cursor: pointer;
+    border-color: #007BFF;
+    background-color: lightskyblue;
+        
+}
+.beach-details{
+    background-color: hwb(211 70% 11%);
+}
+
+
+h1 {
+    margin: 0;
+}
+
+.auth-container {
+    display: flex;
+    align-items: center;
+}
+
+.auth-form {
+    display: flex;
+    flex-direction: column;
+}
+
+.input {
+    margin: 5px 0;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+}
+
+.auth-button,
+.logout-button,
+.back-button{
+    background-color: hsl(74, 73%, 74%);;
+    border: #007BFF;
+}
+
+.view-sources-button,
+.comment-button,
+.report-button {
+    margin: 5px 0;
+    padding: 10px;
+    border: none;
+    border-radius: 5px;
+    background-color: hsl(74, 73%, 74%);
+    color: white;
+    cursor: pointer;
+}
+
+.auth-button:hover,
+.logout-button:hover,
+.back-button:hover,
+.view-sources-button:hover,
+.comment-button:hover,
+.report-button:hover {
+    background-color: #218838;
+}
+
+/* Container Styles */
+.container {
+    padding: 20px;
+}
