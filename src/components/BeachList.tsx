@@ -82,7 +82,11 @@ class BeachList extends Component<{}, State> {
   };
 
   handleBeachClick = (beach: Beach) => {
-    this.setState({ selectedBeach: beach, showSources: false });
+    this.setState({
+      selectedBeach: beach,
+      showSources: false,
+      currentPage: 'beachDetails' // Change the page to beachDetails
+    });
   };
 
   handleLogin = () => {
@@ -134,6 +138,8 @@ class BeachList extends Component<{}, State> {
       } else {
         alert('Comment cannot be empty.');
       }
+    } else {
+      alert('You must be logged in to add a comment.');
     }
   };
 
@@ -157,6 +163,8 @@ class BeachList extends Component<{}, State> {
       } else {
         alert('All fields must be filled out.');
       }
+    } else {
+      alert('You must be logged in to submit a report.');
     }
   };
 
@@ -170,6 +178,10 @@ class BeachList extends Component<{}, State> {
 
   render() {
     const { beaches, selectedBeach, showSources, loggedIn, isRegistering, username, password, newComment, newReport, reportDate, reportSource, currentPage } = this.state;
+
+    console.log('Current Page:', currentPage);
+    console.log('Selected Beach:', selectedBeach);
+    console.log('Logged In:', loggedIn);
 
     return (
       <div>
@@ -270,9 +282,13 @@ class BeachList extends Component<{}, State> {
         {currentPage === 'beachDetails' && selectedBeach && (
           <div className="details-container">
             <div className="full-page">
-              <button onClick={() => this.setState({ selectedBeach: null })} className="back-button">
+              <button 
+                onClick={() => this.setState({ selectedBeach: null, currentPage: 'beachList' })} 
+                className="back-button"
+              >
                 Back to Beach List
               </button>
+
               <div className="beach-details">
                 <h2>{selectedBeach.name}</h2>
                 <p>
