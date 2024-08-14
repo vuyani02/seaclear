@@ -1,5 +1,29 @@
 import React, { Component, ChangeEvent } from 'react';
 
+type Beach = {
+  name: string;
+  quality: string;
+  description: string;
+  temperature: string;
+  windSpeed: string;
+  funFacts: string;
+  sources: string[];
+  comments: string[];
+};
+
+type User = {
+  username: string;
+  password: string;
+};
+
+type Report = {
+  username: string;
+  beachName: string;
+  report: string;
+  date: string;
+  source: string;
+};
+
 type State = {
   beaches: Beach[];
   selectedBeach: Beach | null;
@@ -19,8 +43,26 @@ type State = {
 class BeachList extends Component<{}, State> {
   state: State = {
     beaches: [
-      new Beach("Clifton Beach", "Good", "Popular beach known for its white sands.", "22°C", "15 km/h", "One of the most photographed beaches in the world.", ["Source 1", "Source 2"], []),
-      new Beach("Muizenberg Beach", "Moderate", "A family-friendly beach with good surfing conditions.", "20°C", "10 km/h", "Known for its colorful beach huts.", ["Source 1", "Source 2"], [])
+      {
+        name: "Clifton Beach",
+        quality: "Good",
+        description: "Popular beach known for its white sands.",
+        temperature: "22°C",
+        windSpeed: "15 km/h",
+        funFacts: "One of the most photographed beaches in the world.",
+        sources: ["Source 1", "Source 2"],
+        comments: [],
+      },
+      {
+        name: "Muizenberg Beach",
+        quality: "Moderate",
+        description: "A family-friendly beach with good surfing conditions.",
+        temperature: "20°C",
+        windSpeed: "10 km/h",
+        funFacts: "Known for its colorful beach huts.",
+        sources: ["Source 1", "Source 2"],
+        comments: [],
+      }
     ],
     selectedBeach: null,
     showSources: false,
@@ -61,10 +103,10 @@ class BeachList extends Component<{}, State> {
 
   handleRegister = () => {
     if (this.state.username && this.state.password) {
-      this.setState(prevState => ({
-        users: [...prevState.users, new User(this.state.username, this.state.password)],
+      this.setState({
+        users: [...this.state.users, { username: this.state.username, password: this.state.password }],
         isRegistering: false
-      }));
+      });
       alert('Registration successful!');
     } else {
       alert('Please fill in both fields.');
@@ -75,18 +117,14 @@ class BeachList extends Component<{}, State> {
     if (this.state.loggedIn) {
       if (this.state.newComment.trim()) {
         if (this.state.selectedBeach) {
-          this.state.selectedBeach.addComment(new Comment(this.state.username, this.state.newComment));
+          const updatedBeaches = this.state.beaches.map(beach =>
+            beach.name === this.state.selectedBeach?.name
+              ? { ...beach, comments: [...beach.comments, `${this.state.username}: ${this.state.newComment}`] }
+              : beach
+          );
           this.setState({
-            selectedBeach: new Beach(
-              this.state.selectedBeach.name,
-              this.state.selectedBeach.quality,
-              this.state.selectedBeach.description,
-              this.state.selectedBeach.temperature,
-              this.state.selectedBeach.windSpeed,
-              this.state.selectedBeach.funFacts,
-              this.state.selectedBeach.sources,
-              this.state.selectedBeach.comments
-            ),
+            beaches: updatedBeaches,
+            selectedBeach: updatedBeaches.find(beach => beach.name === this.state.selectedBeach?.name) || null,
             newComment: ''
           });
         }
@@ -99,13 +137,13 @@ class BeachList extends Component<{}, State> {
   handleAddReport = () => {
     if (this.state.loggedIn) {
       if (this.state.newReport.trim() && this.state.reportDate.trim() && this.state.reportSource.trim() && this.state.selectedBeach) {
-        const newReport = new Report(
-          this.state.username,
-          this.state.selectedBeach.name,
-          this.state.newReport,
-          this.state.reportDate,
-          this.state.reportSource
-        );
+        const newReport = {
+          username: this.state.username,
+          beachName: this.state.selectedBeach.name,
+          report: this.state.newReport,
+          date: this.state.reportDate,
+          source: this.state.reportSource
+        };
         this.setState(prevState => ({
           reports: [...prevState.reports, newReport],
           newReport: '',
@@ -279,7 +317,7 @@ class BeachList extends Component<{}, State> {
                 <ul style={styles.commentList}>
                   {selectedBeach.comments.length > 0 ? (
                     selectedBeach.comments.map((comment, index) => (
-                      <li key={index}>{comment.content}</li>
+                      <li key={index}>{comment}</li>
                     ))
                   ) : (
                     <li>No comments yet</li>
@@ -331,117 +369,133 @@ class BeachList extends Component<{}, State> {
 
 const styles = {
   header: {
-    padding: '20px',
     backgroundColor: '#f8f9fa',
-    textAlign: 'center'
-  },
-  authContainer: {
-    margin: '20px'
-  },
-  authForm: {
-    display: 'flex',
-    flexDirection: 'column',
-    alignItems: 'center'
-  },
-  input: {
-    margin: '10px 0',
-    padding: '10px',
-    width: '200px'
-  },
-  authButton: {
-    margin: '10px',
-    padding: '10px',
-    backgroundColor: '#007bff',
-    color: '#fff',
-    border: 'none',
-    borderRadius: '5px',
-    cursor: 'pointer'
-  },
-  logoutButton: {
-    margin: '10px',
-    padding: '10px',
-    backgroundColor: '#dc3545',
-    color: '#fff',
-    border: 'none',
-    borderRadius: '5px',
-    cursor: 'pointer'
+    padding: '1rem',
+    textAlign: 'center' as const,
   },
   alertContainer: {
-    textAlign: 'center',
-    padding: '10px'
+    backgroundColor: '#ffcc00',
+    padding: '1rem',
+    textAlign: 'center' as const,
+    fontWeight: 'bold' as const,
   },
   container: {
-    padding: '20px'
+    padding: '1rem',
   },
   beachList: {
     listStyleType: 'none',
-    padding: 0
+    padding: 0,
   },
   beachItem: {
+    padding: '1rem',
+    marginBottom: '0.5rem',
+    borderRadius: '5px',
+    backgroundColor: '#f9f9f9',
     cursor: 'pointer',
-    marginBottom: '10px',
-    padding: '10px',
-    border: '1px solid #ddd',
-    borderRadius: '5px'
   },
   detailsContainer: {
-    padding: '20px'
+    display: 'flex',
+    justifyContent: 'space-between',
+    padding: '1rem',
   },
   fullPage: {
-    display: 'flex',
-    flexDirection: 'column',
-    alignItems: 'center'
+    flex: 3,
+    padding: '1rem',
   },
-  backButton: {
-    marginBottom: '20px',
-    padding: '10px',
-    backgroundColor: '#6c757d',
-    color: '#fff',
-    border: 'none',
+  reportForm: {
+    flex: 1,
+    padding: '1rem',
+    backgroundColor: '#f9f9f9',
     borderRadius: '5px',
-    cursor: 'pointer'
+    boxShadow: '0 2px 10px rgba(0, 0, 0, 0.1)',
   },
   beachDetails: {
-    textAlign: 'center'
+    padding: '1rem',
+    backgroundColor: '#f9f9f9',
+    borderRadius: '5px',
+    boxShadow: '0 2px 10px rgba(0, 0, 0, 0.1)',
+  },
+  backButton: {
+    display: 'block',
+    margin: '1rem 0',
+    padding: '0.5rem 1rem',
+    backgroundColor: '#007bff',
+    color: 'white',
+    border: 'none',
+    borderRadius: '5px',
+    cursor: 'pointer',
   },
   viewSourcesButton: {
-    margin: '10px',
-    padding: '10px',
-    backgroundColor: '#28a745',
-    color: '#fff',
+    marginTop: '1rem',
+    padding: '0.5rem 1rem',
+    backgroundColor: '#007bff',
+    color: 'white',
     border: 'none',
     borderRadius: '5px',
-    cursor: 'pointer'
+    cursor: 'pointer',
   },
   sourcesList: {
-    marginTop: '10px'
+    marginTop: '1rem',
+    padding: '1rem',
+    backgroundColor: '#f9f9f9',
+    borderRadius: '5px',
   },
   commentInput: {
-    width: '300px',
-    height: '100px',
-    padding: '10px'
+    width: '100%',
+    padding: '0.5rem',
+    borderRadius: '5px',
+    border: '1px solid #ddd',
+    marginBottom: '0.5rem',
   },
   commentButton: {
-    marginTop: '10px',
-    padding: '10px',
+    padding: '0.5rem 1rem',
     backgroundColor: '#007bff',
-    color: '#fff',
+    color: 'white',
     border: 'none',
     borderRadius: '5px',
-    cursor: 'pointer'
+    cursor: 'pointer',
   },
   commentList: {
     listStyleType: 'none',
-    padding: 0
-  },
-  reportForm: {
-    marginTop: '20px'
+    padding: 0,
   },
   footer: {
-    padding: '10px',
     backgroundColor: '#f8f9fa',
-    textAlign: 'center'
-  }
+    padding: '1rem',
+    textAlign: 'center' as const,
+  },
+  authContainer: {
+    padding: '1rem',
+  },
+  authForm: {
+    display: 'flex',
+    flexDirection: 'column' as const,
+    alignItems: 'center' as const,
+  },
+  input: {
+    marginBottom: '0.5rem',
+    padding: '0.5rem',
+    borderRadius: '5px',
+    border: '1px solid #ddd',
+    width: '200px',
+  },
+  authButton: {
+    padding: '0.5rem 1rem',
+    backgroundColor: '#007bff',
+    color: 'white',
+    border: 'none',
+    borderRadius: '5px',
+    cursor: 'pointer',
+    marginBottom: '0.5rem',
+  },
+  logoutButton: {
+    padding: '0.5rem 1rem',
+    backgroundColor: '#dc3545',
+    color: 'white',
+    border: 'none',
+    borderRadius: '5px',
+    cursor: 'pointer',//eufjrfjh
+  },
 };
 
 export default BeachList;
