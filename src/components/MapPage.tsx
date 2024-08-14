@@ -1,11 +1,11 @@
 import React from 'react';
-import './MapPage.css'; // Ensure this file contains your .map-page CSS
+import './BeachList.css'; 
 
 const MapPage: React.FC = () => {
   return (
     <div className="map-page">
       <h2>Map Page</h2>
-      {/* Add other map content here */}
+      <img src="/images/capetown-beaches-SA-www.worldwide.co_.jpg" alt="Map" className="map-image" />
     </div>
   );
 };

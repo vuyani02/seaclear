@@ -1,5 +1,7 @@
 import React, { Component, ChangeEvent } from 'react';
 import './BeachList.css'; // Import the CSS file
+import MapPage from './MapPage';
+import HelpPage from './HelpPage'
 
 type Beach = {
   name: string;
@@ -26,7 +28,8 @@ type Report = {
 };
 
 type State = {
-  currentPage: 'beachList' | 'beachDetails' | 'map';
+  currentPage: 'beachList' | 'beachDetails' | 'map' | 'help';
+  selectedButton: 'beachList' | 'map' | 'help'; 
   beaches: Beach[];
   selectedBeach: Beach | null;
   showSources: boolean;
@@ -42,9 +45,11 @@ type State = {
   reports: Report[];
 };
 
-class BeachList extends Component<{}, State> {
+class App extends Component<{}, State> {
   state: State = {
     currentPage: 'beachList',
+    selectedButton: 'beachList', 
+    
     beaches: [
       {
         name: "Clifton Beach",
@@ -85,7 +90,7 @@ class BeachList extends Component<{}, State> {
     this.setState({
       selectedBeach: beach,
       showSources: false,
-      currentPage: 'beachDetails' // Change the page to beachDetails
+      currentPage: 'beachDetails'
     });
   };
 
@@ -175,21 +180,41 @@ class BeachList extends Component<{}, State> {
   handleRegisterToggle = () => {
     this.setState({ isRegistering: !this.state.isRegistering });
   };
+  handleButtonClick = (button: 'beachList' | 'map' | 'help') => {
+  this.setState({
+    currentPage: button,
+    selectedButton: button
+  });
+};
+
 
   render() {
     const { beaches, selectedBeach, showSources, loggedIn, isRegistering, username, password, newComment, newReport, reportDate, reportSource, currentPage } = this.state;
-
-    console.log('Current Page:', currentPage);
-    console.log('Selected Beach:', selectedBeach);
-    console.log('Logged In:', loggedIn);
 
     return (
       <div>
         <header className="header">
           <h1>SeaClear - Beach Water Quality</h1>
           <div className="nav-buttons">
-            <button onClick={() => this.setState({ currentPage: 'beachList' })}>Beaches</button>
-            <button onClick={() => this.setState({ currentPage: 'map' })}>Map</button>
+    <button
+      className={`nav-button ${this.state.selectedButton === 'beachList' ? 'selected' : ''}`}
+      onClick={() => this.handleButtonClick('beachList')}
+    >
+      Beaches
+    </button>
+    <button
+      className={`nav-button ${this.state.selectedButton === 'map' ? 'selected' : ''}`}
+      onClick={() => this.handleButtonClick('map')}
+    >
+      Map
+    </button>
+    <button
+      className={`nav-button ${this.state.selectedButton === 'help' ? 'selected' : ''}`}
+      onClick={() => this.handleButtonClick('help')}
+    >
+      Help
+    </button>
+
             {!loggedIn ? (
               <div className="auth-container">
                 {isRegistering ? (
@@ -355,11 +380,11 @@ class BeachList extends Component<{}, State> {
             </div>
           </div>
         )}
-
+       {currentPage === 'help' && <HelpPage />}
         {currentPage === 'map' && (
           <div className="map-container">
             <h2>Map Page</h2>
-            {/* Add map content here */}
+            <MapPage />
           </div>
         )}
       </div>
@@ -367,4 +392,4 @@ class BeachList extends Component<{}, State> {
   }
 }
 
-export default BeachList;
+export default App;
