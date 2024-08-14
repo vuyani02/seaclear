@@ -1,4 +1,4 @@
-import React, { Component, ChangeEvent } from 'react';
+import React, { Component, ChangeEvent } from 'react';// classs
 
 type Beach = {
   name: string;
