@@ -1,4 +1,5 @@
-import React, { Component, ChangeEvent } from 'react';// classs
+import React, { Component, ChangeEvent } from 'react';
+import './BeachList.css'; // Import the CSS file
 
 type Beach = {
   name: string;
@@ -9,6 +10,7 @@ type Beach = {
   funFacts: string;
   sources: string[];
   comments: string[];
+  
 };
 
 type User = {
@@ -170,12 +172,12 @@ class BeachList extends Component<{}, State> {
 
     return (
       <div>
-        <header style={styles.header}>
+        <header className="header">
           <h1>SeaClear - Beach Water Quality</h1>
           {!loggedIn ? (
-            <div style={styles.authContainer}>
+            <div className="auth-container">
               {isRegistering ? (
-                <div style={styles.authForm}>
+                <div className="auth-form">
                   <h2>Create an Account</h2>
                   <input
                     type="text"
@@ -183,7 +185,7 @@ class BeachList extends Component<{}, State> {
                     placeholder="Username"
                     value={username}
                     onChange={this.handleChange}
-                    style={styles.input}
+                    className="input"
                   />
                   <input
                     type="password"
@@ -191,17 +193,17 @@ class BeachList extends Component<{}, State> {
                     placeholder="Password"
                     value={password}
                     onChange={this.handleChange}
-                    style={styles.input}
+                    className="input"
                   />
-                  <button onClick={this.handleRegister} style={styles.authButton}>
+                  <button onClick={this.handleRegister} className="auth-button">
                     Register
                   </button>
-                  <button onClick={this.handleRegisterToggle} style={styles.authButton}>
+                  <button onClick={this.handleRegisterToggle} className="auth-button">
                     Back to Login
                   </button>
                 </div>
               ) : (
-                <div style={styles.authForm}>
+                <div className="auth-form">
                   <h2>Login</h2>
                   <input
                     type="text"
@@ -209,7 +211,7 @@ class BeachList extends Component<{}, State> {
                     placeholder="Username"
                     value={username}
                     onChange={this.handleChange}
-                    style={styles.input}
+                    className="input"
                   />
                   <input
                     type="password"
@@ -217,36 +219,36 @@ class BeachList extends Component<{}, State> {
                     placeholder="Password"
                     value={password}
                     onChange={this.handleChange}
-                    style={styles.input}
+                    className="input"
                   />
-                  <button onClick={this.handleLogin} style={styles.authButton}>
+                  <button onClick={this.handleLogin} className="auth-button">
                     Login
                   </button>
-                  <button onClick={this.handleRegisterToggle} style={styles.authButton}>
+                  <button onClick={this.handleRegisterToggle} className="auth-button">
                     Create an Account
                   </button>
                 </div>
               )}
             </div>
           ) : (
-            <button onClick={this.handleLogout} style={styles.logoutButton}>
+            <button onClick={this.handleLogout} className="logout-button">
               Logout
             </button>
           )}
         </header>
 
-        <div style={styles.alertContainer}>
+        <div className="alert-container">
           <p>Log in if you want to post a comment or submit a report</p>
         </div>
 
         {!selectedBeach ? (
-          <div style={styles.container}>
+          <div className="container">
             <h2>Beaches in Cape Town</h2>
-            <ul style={styles.beachList}>
+            <ul className="beach-list">
               {beaches.map((beach, index) => (
                 <li
                   key={index}
-                  style={styles.beachItem}
+                  className="beach-item"
                   onClick={() => this.handleBeachClick(beach)}
                 >
                   <h3>{beach.name}</h3>
@@ -259,13 +261,13 @@ class BeachList extends Component<{}, State> {
             </ul>
           </div>
         ) : (
-          <div style={styles.detailsContainer}>
-            <div style={styles.fullPage}>
-              <button onClick={() => this.setState({ selectedBeach: null })} style={styles.backButton}>
+          <div className="details-container">
+            <div className="full-page">
+              <button onClick={() => this.setState({ selectedBeach: null })} className="back-button">
                 Back to Beach List
               </button>
 
-              <div style={styles.beachDetails}>
+              <div className="beach-details">
                 <h2>{selectedBeach.name}</h2>
                 <p>
                   <strong>Water Quality:</strong> {selectedBeach.quality}
@@ -283,13 +285,13 @@ class BeachList extends Component<{}, State> {
 
                 <button
                   onClick={() => this.setState({ showSources: !showSources })}
-                  style={styles.viewSourcesButton}
+                  className="view-sources-button"
                 >
                   {showSources ? 'Hide Sources' : 'View Sources'}
                 </button>
 
                 {showSources && (
-                  <div style={styles.sourcesList}>
+                  <div className="sources-list">
                     <h3>Sources of Reports:</h3>
                     <ul>
                       {selectedBeach.sources.map((source, index) => (
@@ -306,196 +308,68 @@ class BeachList extends Component<{}, State> {
                     value={newComment}
                     onChange={this.handleChange}
                     placeholder="Type your comment here..."
-                    style={styles.commentInput}
+                    className="comment-input"
                   />
-                  <button onClick={this.handleAddComment} style={styles.commentButton}>
-                    Submit Comment
+                  <button onClick={this.handleAddComment} className="comment-button">
+                  
+                 
                   </button>
                 </div>
 
-                <h3>Comments</h3>
-                <ul style={styles.commentList}>
+                <div className="comments-section">
+                  <h3>Comments</h3>
                   {selectedBeach.comments.length > 0 ? (
-                    selectedBeach.comments.map((comment, index) => (
-                      <li key={index}>{comment}</li>
-                    ))
+                    <ul className="comment-list">
+                      {selectedBeach.comments.map((comment, index) => (
+                        <li key={index} className="comment-item">{comment}</li>
+                      ))}
+                    </ul>
                   ) : (
-                    <li>No comments yet</li>
+                    <p>No comments yet.</p>
                   )}
-                </ul>
+                </div>
+
+                {loggedIn ? (
+                  <div className="report-section">
+                    <h3>Submit a Report</h3>
+                    <textarea
+                      name="newReport"
+                      value={newReport}
+                      onChange={this.handleChange}
+                      placeholder="Describe the current water conditions..."
+                      className="report-input"
+                    />
+                    <input
+                      type="text"
+                      name="reportDate"
+                      value={reportDate}
+                      onChange={this.handleChange}
+                      placeholder="Date (YYYY-MM-DD)"
+                      className="input"
+                    />
+                    <input
+                      type="text"
+                      name="reportSource"
+                      value={reportSource}
+                      onChange={this.handleChange}
+                      placeholder="Source"
+                      className="input"
+                    />
+                    <button onClick={this.handleAddReport} className="report-button">
+                      Submit Report
+                    </button>
+                  </div>
+                ) : (
+                  <p className="login-reminder">You are not logged in. Please log in to submit a report.</p>
+                )}
               </div>
             </div>
-
-            {loggedIn && (
-              <div style={styles.reportForm}>
-                <h3>Report an Issue</h3>
-                <textarea
-                  name="newReport"
-                  value={newReport}
-                  onChange={this.handleChange}
-                  placeholder="Type your report here..."
-                  style={styles.commentInput}
-                />
-                <input
-                  type="date"
-                  name="reportDate"
-                  value={reportDate}
-                  onChange={this.handleChange}
-                  style={styles.input}
-                />
-                <input
-                  type="text"
-                  name="reportSource"
-                  value={reportSource}
-                  onChange={this.handleChange}
-                  placeholder="Source of the report"
-                  style={styles.input}
-                />
-                <button onClick={this.handleAddReport} style={styles.commentButton}>
-                  Submit Report
-                </button>
-              </div>
-            )}
           </div>
         )}
-
-        <footer style={styles.footer}>
-          <p>SeaClear - Beach Water Quality. All rights reserved.</p>
-        </footer>
       </div>
     );
   }
 }
 
-const styles = {
-  header: {
-    backgroundColor: '#f8f9fa',
-    padding: '1rem',
-    textAlign: 'center' as const,
-  },
-  alertContainer: {
-    backgroundColor: '#ffcc00',
-    padding: '1rem',
-    textAlign: 'center' as const,
-    fontWeight: 'bold' as const,
-  },
-  container: {
-    padding: '1rem',
-  },
-  beachList: {
-    listStyleType: 'none',
-    padding: 0,
-  },
-  beachItem: {
-    padding: '1rem',
-    marginBottom: '0.5rem',
-    borderRadius: '5px',
-    backgroundColor: '#f9f9f9',
-    cursor: 'pointer',
-  },
-  detailsContainer: {
-    display: 'flex',
-    justifyContent: 'space-between',
-    padding: '1rem',
-  },
-  fullPage: {
-    flex: 3,
-    padding: '1rem',
-  },
-  reportForm: {
-    flex: 1,
-    padding: '1rem',
-    backgroundColor: '#f9f9f9',
-    borderRadius: '5px',
-    boxShadow: '0 2px 10px rgba(0, 0, 0, 0.1)',
-  },
-  beachDetails: {
-    padding: '1rem',
-    backgroundColor: '#f9f9f9',
-    borderRadius: '5px',
-    boxShadow: '0 2px 10px rgba(0, 0, 0, 0.1)',
-  },
-  backButton: {
-    display: 'block',
-    margin: '1rem 0',
-    padding: '0.5rem 1rem',
-    backgroundColor: '#007bff',
-    color: 'white',
-    border: 'none',
-    borderRadius: '5px',
-    cursor: 'pointer',
-  },
-  viewSourcesButton: {
-    marginTop: '1rem',
-    padding: '0.5rem 1rem',
-    backgroundColor: '#007bff',
-    color: 'white',
-    border: 'none',
-    borderRadius: '5px',
-    cursor: 'pointer',
-  },
-  sourcesList: {
-    marginTop: '1rem',
-    padding: '1rem',
-    backgroundColor: '#f9f9f9',
-    borderRadius: '5px',
-  },
-  commentInput: {
-    width: '100%',
-    padding: '0.5rem',
-    borderRadius: '5px',
-    border: '1px solid #ddd',
-    marginBottom: '0.5rem',
-  },
-  commentButton: {
-    padding: '0.5rem 1rem',
-    backgroundColor: '#007bff',
-    color: 'white',
-    border: 'none',
-    borderRadius: '5px',
-    cursor: 'pointer',
-  },
-  commentList: {
-    listStyleType: 'none',
-    padding: 0,
-  },
-  footer: {
-    backgroundColor: '#f8f9fa',
-    padding: '1rem',
-    textAlign: 'center' as const,
-  },
-  authContainer: {
-    padding: '1rem',
-  },
-  authForm: {
-    display: 'flex',
-    flexDirection: 'column' as const,
-    alignItems: 'center' as const,
-  },
-  input: {
-    marginBottom: '0.5rem',
-    padding: '0.5rem',
-    borderRadius: '5px',
-    border: '1px solid #ddd',
-    width: '200px',
-  },
-  authButton: {
-    padding: '0.5rem 1rem',
-    backgroundColor: '#007bff',
-    color: 'white',
-    border: 'none',
-    borderRadius: '5px',
-    cursor: 'pointer',
-    marginBottom: '0.5rem',
-  },
-  logoutButton: {
-    padding: '0.5rem 1rem',
-    backgroundColor: '#dc3545',
-    color: 'white',
-    border: 'none',
-    borderRadius: '5px',
-    cursor: 'pointer',//eufjrfjh
-  },
-};
-
 export default BeachList;
+
