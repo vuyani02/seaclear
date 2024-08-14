@@ -14,7 +14,10 @@ body {
     font-size: small;
     ;
 }
-
+.nav-button.selected {
+    background-color: #0056b3;
+    /* This will make the selected button stay blue */
+}
 .beach-item.beach-1{
     background-size: cover;
    background-position: center;

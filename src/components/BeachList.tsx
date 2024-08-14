@@ -29,6 +29,7 @@ type Report = {
 
 type State = {
   currentPage: 'beachList' | 'beachDetails' | 'map' | 'help';
+  selectedButton: 'beachList' | 'map' | 'help'; 
   beaches: Beach[];
   selectedBeach: Beach | null;
   showSources: boolean;
@@ -47,6 +48,8 @@ type State = {
 class App extends Component<{}, State> {
   state: State = {
     currentPage: 'beachList',
+    selectedButton: 'beachList', 
+    
     beaches: [
       {
         name: "Clifton Beach",
@@ -177,6 +180,13 @@ class App extends Component<{}, State> {
   handleRegisterToggle = () => {
     this.setState({ isRegistering: !this.state.isRegistering });
   };
+  handleButtonClick = (button: 'beachList' | 'map' | 'help') => {
+  this.setState({
+    currentPage: button,
+    selectedButton: button
+  });
+};
+
 
   render() {
     const { beaches, selectedBeach, showSources, loggedIn, isRegistering, username, password, newComment, newReport, reportDate, reportSource, currentPage } = this.state;
@@ -186,10 +196,24 @@ class App extends Component<{}, State> {
         <header className="header">
           <h1>SeaClear - Beach Water Quality</h1>
           <div className="nav-buttons">
-  <button className="nav-button" onClick={() => this.setState({ currentPage: 'beachList' })}>Beaches</button>
-<button className="nav-button" onClick={() => this.setState({ currentPage: 'map' })}>Map</button>
-<button className="nav-button" onClick={() => this.setState({ currentPage: 'help' })}>Help</button>
-
+    <button
+      className={`nav-button ${this.state.selectedButton === 'beachList' ? 'selected' : ''}`}
+      onClick={() => this.handleButtonClick('beachList')}
+    >
+      Beaches
+    </button>
+    <button
+      className={`nav-button ${this.state.selectedButton === 'map' ? 'selected' : ''}`}
+      onClick={() => this.handleButtonClick('map')}
+    >
+      Map
+    </button>
+    <button
+      className={`nav-button ${this.state.selectedButton === 'help' ? 'selected' : ''}`}
+      onClick={() => this.handleButtonClick('help')}
+    >
+      Help
+    </button>
 
             {!loggedIn ? (
               <div className="auth-container">
