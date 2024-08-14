@@ -10,7 +10,6 @@ type Beach = {
   funFacts: string;
   sources: string[];
   comments: string[];
-  
 };
 
 type User = {
@@ -27,6 +26,7 @@ type Report = {
 };
 
 type State = {
+  currentPage: 'beachList' | 'beachDetails' | 'map';
   beaches: Beach[];
   selectedBeach: Beach | null;
   showSources: boolean;
@@ -44,6 +44,7 @@ type State = {
 
 class BeachList extends Component<{}, State> {
   state: State = {
+    currentPage: 'beachList',
     beaches: [
       {
         name: "Clifton Beach",
@@ -168,80 +169,84 @@ class BeachList extends Component<{}, State> {
   };
 
   render() {
-    const { beaches, selectedBeach, showSources, loggedIn, isRegistering, username, password, newComment, newReport, reportDate, reportSource } = this.state;
+    const { beaches, selectedBeach, showSources, loggedIn, isRegistering, username, password, newComment, newReport, reportDate, reportSource, currentPage } = this.state;
 
     return (
       <div>
         <header className="header">
           <h1>SeaClear - Beach Water Quality</h1>
-          {!loggedIn ? (
-            <div className="auth-container">
-              {isRegistering ? (
-                <div className="auth-form">
-                  <h2>Create an Account</h2>
-                  <input
-                    type="text"
-                    name="username"
-                    placeholder="Username"
-                    value={username}
-                    onChange={this.handleChange}
-                    className="input"
-                  />
-                  <input
-                    type="password"
-                    name="password"
-                    placeholder="Password"
-                    value={password}
-                    onChange={this.handleChange}
-                    className="input"
-                  />
-                  <button onClick={this.handleRegister} className="auth-button">
-                    Register
-                  </button>
-                  <button onClick={this.handleRegisterToggle} className="auth-button">
-                    Back to Login
-                  </button>
-                </div>
-              ) : (
-                <div className="auth-form">
-                  <h2>Login</h2>
-                  <input
-                    type="text"
-                    name="username"
-                    placeholder="Username"
-                    value={username}
-                    onChange={this.handleChange}
-                    className="input"
-                  />
-                  <input
-                    type="password"
-                    name="password"
-                    placeholder="Password"
-                    value={password}
-                    onChange={this.handleChange}
-                    className="input"
-                  />
-                  <button onClick={this.handleLogin} className="auth-button">
-                    Login
-                  </button>
-                  <button onClick={this.handleRegisterToggle} className="auth-button">
-                    Create an Account
-                  </button>
-                </div>
-              )}
-            </div>
-          ) : (
-            <button onClick={this.handleLogout} className="logout-button">
-              Logout
-            </button>
-          )}
+          <div className="nav-buttons">
+            <button onClick={() => this.setState({ currentPage: 'beachList' })}>Beaches</button>
+            <button onClick={() => this.setState({ currentPage: 'map' })}>Map</button>
+            {!loggedIn ? (
+              <div className="auth-container">
+                {isRegistering ? (
+                  <div className="auth-form">
+                    <h2>Create an Account</h2>
+                    <input
+                      type="text"
+                      name="username"
+                      placeholder="Username"
+                      value={username}
+                      onChange={this.handleChange}
+                      className="input"
+                    />
+                    <input
+                      type="password"
+                      name="password"
+                      placeholder="Password"
+                      value={password}
+                      onChange={this.handleChange}
+                      className="input"
+                    />
+                    <button onClick={this.handleRegister} className="auth-button">
+                      Register
+                    </button>
+                    <button onClick={this.handleRegisterToggle} className="auth-button">
+                      Back to Login
+                    </button>
+                  </div>
+                ) : (
+                  <div className="auth-form">
+                    <h2>Login</h2>
+                    <input
+                      type="text"
+                      name="username"
+                      placeholder="Username"
+                      value={username}
+                      onChange={this.handleChange}
+                      className="input"
+                    />
+                    <input
+                      type="password"
+                      name="password"
+                      placeholder="Password"
+                      value={password}
+                      onChange={this.handleChange}
+                      className="input"
+                    />
+                    <button onClick={this.handleLogin} className="auth-button">
+                      Login
+                    </button>
+                    <button onClick={this.handleRegisterToggle} className="auth-button">
+                      Create an Account
+                    </button>
+                  </div>
+                )}
+              </div>
+            ) : (
+              <button onClick={this.handleLogout} className="logout-button">
+                Logout
+              </button>
+            )}
+          </div>
         </header>
 
         <div className="alert-container">
           <p>Log in if you want to post a comment or submit a report</p>
         </div>
 
-        {!selectedBeach ? (
+        {currentPage === 'beachList' && !selectedBeach && (
           <div className="container">
             <h2>Beaches in Cape Town</h2>
             <ul className="beach-list">
@@ -260,13 +265,14 @@ class BeachList extends Component<{}, State> {
               ))}
             </ul>
           </div>
-        ) : (
+        )}
+
+        {currentPage === 'beachDetails' && selectedBeach && (
           <div className="details-container">
             <div className="full-page">
               <button onClick={() => this.setState({ selectedBeach: null })} className="back-button">
                 Back to Beach List
               </button>
-
               <div className="beach-details">
                 <h2>{selectedBeach.name}</h2>
                 <p>
@@ -282,14 +288,12 @@ class BeachList extends Component<{}, State> {
                 <p>
                   <strong>Fun Facts:</strong> {selectedBeach.funFacts}
                 </p>
-
                 <button
                   onClick={() => this.setState({ showSources: !showSources })}
                   className="view-sources-button"
                 >
                   {showSources ? 'Hide Sources' : 'View Sources'}
                 </button>
-
                 {showSources && (
                   <div className="sources-list">
                     <h3>Sources of Reports:</h3>
@@ -300,70 +304,46 @@ class BeachList extends Component<{}, State> {
                     </ul>
                   </div>
                 )}
-
-                <div>
-                  <h3>Add a Comment</h3>
-                  <textarea
-                    name="newComment"
-                    value={newComment}
-                    onChange={this.handleChange}
-                    placeholder="Type your comment here..."
-                    className="comment-input"
-                  />
-                  <button onClick={this.handleAddComment} className="comment-button">
-                  
-                 
-                  </button>
-                </div>
-
-                <div className="comments-section">
-                  <h3>Comments</h3>
-                  {selectedBeach.comments.length > 0 ? (
-                    <ul className="comment-list">
-                      {selectedBeach.comments.map((comment, index) => (
-                        <li key={index} className="comment-item">{comment}</li>
-                      ))}
-                    </ul>
-                  ) : (
-                    <p>No comments yet.</p>
-                  )}
-                </div>
-
-                {loggedIn ? (
-                  <div className="report-section">
-                    <h3>Submit a Report</h3>
+                {loggedIn && (
+                  <div>
+                    <textarea
+                      name="newComment"
+                      value={newComment}
+                      onChange={this.handleChange}
+                      placeholder="Add a comment"
+                    />
+                    <button onClick={this.handleAddComment}>Add Comment</button>
                     <textarea
                       name="newReport"
                       value={newReport}
                       onChange={this.handleChange}
-                      placeholder="Describe the current water conditions..."
-                      className="report-input"
+                      placeholder="Submit a report"
                     />
                     <input
-                      type="text"
+                      type="date"
                       name="reportDate"
                       value={reportDate}
                       onChange={this.handleChange}
-                      placeholder="Date (YYYY-MM-DD)"
-                      className="input"
                     />
                     <input
                       type="text"
                       name="reportSource"
                       value={reportSource}
                       onChange={this.handleChange}
-                      placeholder="Source"
-                      className="input"
+                      placeholder="Source of the report"
                     />
-                    <button onClick={this.handleAddReport} className="report-button">
-                      Submit Report
-                    </button>
+                    <button onClick={this.handleAddReport}>Submit Report</button>
                   </div>
-                ) : (
-                  <p className="login-reminder">You are not logged in. Please log in to submit a report.</p>
                 )}
               </div>
             </div>
+          </div>
+        )}
+
+        {currentPage === 'map' && (
+          <div className="map-container">
+            <h2>Map Page</h2>
+            {/* Add map content here */}
           </div>
         )}
       </div>
@@ -372,4 +352,3 @@ class BeachList extends Component<{}, State> {
 }
 
 export default BeachList;
-

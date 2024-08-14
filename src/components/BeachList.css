@@ -33,6 +33,9 @@ body {
     background-color: lightskyblue;
         
 }
+.beach-details{
+    background-color: hwb(211 70% 11%);
+}
 
 
 h1 {
