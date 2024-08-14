@@ -1,16 +1,20 @@
 import React, { Component } from 'react';
 import BeachList from './components/BeachList';
-import MapPage from './components/MapPage'; // Import the MapPage component
+import MapPage from './components/MapPage';
+import HelpPage from './components/HelpPage';
 
 type State = {
-  currentPage: 'beachList' | 'map';
-  // Other state properties
+  currentPage: 'beachList' | 'map' | 'help';
 };
 
 class App extends Component<{}, State> {
   state: State = {
     currentPage: 'beachList',
-    // Other state initializations
+  };
+
+  // Method to change the current page
+  handlePageChange = (page: 'beachList' | 'map' | 'help') => {
+    this.setState({ currentPage: page });
   };
 
   render() {
@@ -18,10 +22,25 @@ class App extends Component<{}, State> {
 
     return (
       <div>
-        {/* Navigation and other components */}
+        {/* Navigation Links */}
+        {/* <nav>
+          <ul>
+            <li>
+              <button onClick={() => this.handlePageChange('beachList')}>Beach List</button>
+            </li>
+            <li>
+              <button onClick={() => this.handlePageChange('map')}>Map</button>
+            </li>
+            <li>
+              <button onClick={() => this.handlePageChange('help')}>Help</button>
+            </li>
+          </ul>
+        </nav> */}
+
+        {/* Render Components Based on Current Page */}
         {currentPage === 'beachList' && <BeachList />}
-        {currentPage === 'map' && <MapPage />}
-        {/* Additional content */}
+        {/* {currentPage === 'map' && <MapPage />}
+        {currentPage === 'help' && <HelpPage />} */}
       </div>
     );
   }
