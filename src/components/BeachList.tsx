@@ -12,7 +12,7 @@ type Beach = {
 };
 
 type User = {
-  username: string;
+  username: string;// hey
   password: string;
 };
 
