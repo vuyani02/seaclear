@@ -313,7 +313,7 @@ class App extends Component<{}, State> {
               >
                 Back to Beach List
               </button>
-
+          
               <div className="beach-details">
                 <h2>{selectedBeach.name}</h2>
                 <p>
@@ -376,10 +376,26 @@ class App extends Component<{}, State> {
                     <button onClick={this.handleAddReport}>Submit Report</button>
                   </div>
                 )}
+                        {/* Comments Section */}
+        <div className="comments-section">
+          <h3>Comments</h3>
+          <ul className="comments-list">
+            {selectedBeach.comments.length > 0 ? (
+              selectedBeach.comments.map((comment, index) => (
+                <li key={index} className="comment-item">
+                  {comment}
+                </li>
+              ))
+            ) : (
+              <p>No comments yet. Be the first to comment!</p>
+            )}
+          </ul>
+        </div>
               </div>
             </div>
           </div>
         )}
+        
        {currentPage === 'help' && <HelpPage />}
         {currentPage === 'map' && (
           <div className="map-container">
