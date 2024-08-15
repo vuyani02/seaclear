@@ -55,22 +55,22 @@ class App extends Component<{}, State> {
     beaches: [
       {
         name: "Clifton Beach",
-        quality: "Good",
-        description: "Popular beach known for its white sands.",
+        quality: "UNSAFE",
+        description: "High levels of bacteria detected, not recommended for swimming.",
         temperature: "22°C",
         windSpeed: "15 km/h",
         funFacts: "One of the most photographed beaches in the world.",
-        sources: ["Source 1", "Source 2"],
+        sources: ["City of cape town"],
         comments: [],
       },
       {
         name: "Muizenberg Beach",
-        quality: "Moderate",
-        description: "A family-friendly beach with good surfing conditions.",
+        quality: "SAFE",
+        description: "The water quality is excellent, suitable for swimming.",
         temperature: "20°C",
         windSpeed: "10 km/h",
         funFacts: "Known for its colorful beach huts.",
-        sources: ["Source 1", "Source 2"],
+        sources: ["City of cape town"],
         comments: [],
       }
     ],
