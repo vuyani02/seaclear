@@ -2,6 +2,7 @@ import React, { Component, ChangeEvent } from 'react';
 import './BeachList.css'; // Import the CSS file
 import MapPage from './MapPage';
 import HelpPage from './HelpPage'
+import EducationalContentPage from './EducationalContentPage'; 
 
 type Beach = {
   name: string;
@@ -28,8 +29,8 @@ type Report = {
 };
 
 type State = {
-  currentPage: 'beachList' | 'beachDetails' | 'map' | 'help';
-  selectedButton: 'beachList' | 'map' | 'help'; 
+  currentPage: 'beachList' | 'beachDetails' | 'map' | 'help' | 'educationalContent';
+  selectedButton: 'beachList' | 'map' | 'help' | 'educationalContent'; 
   beaches: Beach[];
   selectedBeach: Beach | null;
   showSources: boolean;
@@ -171,7 +172,7 @@ class App extends Component<{}, State> {
     } else {
       alert('You must be logged in to submit a report.');
     }
-  };
+  }; 
 
   handleChange = (event: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     this.setState({ [event.target.name]: event.target.value } as any);
@@ -180,7 +181,7 @@ class App extends Component<{}, State> {
   handleRegisterToggle = () => {
     this.setState({ isRegistering: !this.state.isRegistering });
   };
-  handleButtonClick = (button: 'beachList' | 'map' | 'help') => {
+  handleButtonClick = (button: 'beachList' | 'map' | 'help' | 'educationalContent') => {
   this.setState({
     currentPage: button,
     selectedButton: button
@@ -214,6 +215,12 @@ class App extends Component<{}, State> {
     >
       Help
     </button>
+    <button
+  className={`nav-button ${this.state.selectedButton === 'educationalContent' ? 'selected' : ''}`}
+  onClick={() => this.handleButtonClick('educationalContent')}
+>
+  Educational Content
+</button>
 
             {!loggedIn ? (
               <div className="auth-container">
@@ -376,6 +383,7 @@ class App extends Component<{}, State> {
                     <button onClick={this.handleAddReport}>Submit Report</button>
                   </div>
                 )}
+                
                         {/* Comments Section */}
         <div className="comments-section">
           <h3>Comments</h3>
@@ -395,7 +403,7 @@ class App extends Component<{}, State> {
             </div>
           </div>
         )}
-        
+        {currentPage === 'educationalContent' && <EducationalContentPage />}
        {currentPage === 'help' && <HelpPage />}
         {currentPage === 'map' && (
           <div className="map-container">
