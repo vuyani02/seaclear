@@ -44,6 +44,65 @@ body {
     gap: 5px;
     /* Space between buttons */
 }
+.details-container {
+    padding: 20px;
+}
+
+.beach-details {
+
+            padding: 20px;
+            background-color: #f9f9f9;
+            border-bottom: 2px solid #ddd;
+            margin-bottom: 50px;
+            /* Increase this value to push the comments lower */
+        
+}
+.educational-content {
+    padding: 20px;
+    background-color: #d4d0d0;
+}
+
+.educational-content h2 {
+    font-size: 24px;
+    margin-bottom: 10px;
+}
+
+.educational-content p {
+    font-size: 16px;
+    line-height: 1.5;
+}
+
+.educational-content ul {
+    margin-top: 10px;
+    list-style-type: disc;
+    padding-left: 20px;
+}
+
+.educational-content li {
+    margin-bottom: 8px;
+}
+
+.comments-section {
+    margin-top: 10px;
+    padding-top: 1px;
+    border-top: 10px solid #ddd;
+    background-color: #98bee7;
+    border: #333;
+}
+.comments-section h3 {
+    font-size: 24px;
+    /* Adjust the size to your preference */
+    font-weight: bold;
+    /* Optional: Adjust the weight */
+    color: #333;
+    /* Optional: Adjust the color */
+    margin-bottom: 10px;
+    /* Optional: Adjust the spacing */
+    margin-top: 50px;
+}
+.comment-input {
+    margin-top: 30px;
+}
 
 /* Container for vertical button layout */
 .sidebar {
