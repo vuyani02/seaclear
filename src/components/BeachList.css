@@ -1,4 +1,4 @@
-/* General Styles */
+
 body {
     font-family: Arial, sans-serif;
 }
@@ -16,7 +16,7 @@ body {
 }
 .nav-button.selected {
     background-color: #0056b3;
-    /* This will make the selected button stay blue */
+
 }
 .beach-item.beach-1{
     background-size: cover;
@@ -42,7 +42,7 @@ body {
 .nav-buttons {
     display: flex;
     gap: 5px;
-    /* Space between buttons */
+    
 }
 .details-container {
     padding: 20px;
@@ -50,11 +50,11 @@ body {
 
 .beach-details {
 
-            padding: 20px;
-            background-color: #f9f9f9;
-            border-bottom: 2px solid #ddd;
-            margin-bottom: 50px;
-            /* Increase this value to push the comments lower */
+    padding: 20px;
+    background-color: #f9f9f9;
+    border-bottom: 2px solid #ddd;
+    margin-bottom: 50px;
+       
         
 }
 .educational-content {
@@ -91,13 +91,9 @@ body {
 }
 .comments-section h3 {
     font-size: 24px;
-    /* Adjust the size to your preference */
     font-weight: bold;
-    /* Optional: Adjust the weight */
     color: #333;
-    /* Optional: Adjust the color */
     margin-bottom: 10px;
-    /* Optional: Adjust the spacing */
     margin-top: 50px;
 }
 .comment-input {
@@ -108,17 +104,11 @@ body {
 .sidebar {
     display: flex;
     flex-direction: column;
-    /* Stack buttons vertically */
     gap: 10px;
-    /* Space between buttons */
     padding: 10px;
-    /* Padding around the sidebar */
     background-color: #f8f9fa;
-    /* Background color for sidebar */
     width: 200px;
-    /* Width of the sidebar */
     height: 100vh;
-    /* Full viewport height */
 }
 
 /* Styling for individual buttons */
@@ -126,26 +116,28 @@ body {
     padding: 10px 20px;
     font-size: 16px;
     background-color: transparent;
-    /* Transparent background */
     color: #007bff;
-    /* Button text color */
     border: 2px solid #007bff;
-    /* Button border */
     border-radius: 8px;
-    /* Adjust for rounded corners */
     cursor: pointer;
     transition: background-color 0.3s, color 0.3s;
+}
+.map-page {
+    background-image: url('https://bbqboy.net/wp-content/uploads/2015/12/capetown-beaches-SA-www.worldwide.co_.jpg');
+    background-size: 1200px 800px;
+    background-position: center;
+    background-repeat: no-repeat;
+    height: 100vh;
+    padding: 20px;
 }
 
 .nav-button:hover {
     background-color: #007bff;
     color: white;
-    /* Change text color on hover */
 }
 
 .nav-button:hover {
     background-color: #0056b3;
-    /* Darker color on hover */
 }
 .nav-button:hover {
     background-color: #0056b3;
@@ -199,7 +191,7 @@ h1 {
     background-color: #218838;
 }
 
-/* Container Styles */
+
 .container {
     padding: 20px;
 }

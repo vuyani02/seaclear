@@ -15,6 +15,7 @@ type Beach = {
   comments: string[];
 };
 
+
 type User = {
   username: string;
   password: string;
