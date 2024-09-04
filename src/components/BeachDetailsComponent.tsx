@@ -1,13 +1,11 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import { Beach } from '../types/types';
 import HeaderComponent from './HeaderComponent';
-import './BeachDetailsComponent.css'; // Import the CSS file for styling
+import './BeachDetailsComponent.css';
 
 const BeachDetailsComponent: React.FC = () => {
   const { name } = useParams<{ name: string }>();
-  
-  // Example beach details (replace with actual data fetching)
   const [beach, setBeach] = useState<Beach>({
     name: name || '',
     quality: 'Good',
@@ -19,18 +17,26 @@ const BeachDetailsComponent: React.FC = () => {
     comments: ['Nice place!', 'Very clean and friendly.']
   });
 
-  const [newComment, setNewComment] = useState('');
+  useEffect(() => {
+    const storedData = localStorage.getItem(name || '');
+    if (storedData) {
+      const parsedData = JSON.parse(storedData);
 
-  const handleCommentSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
-    if (newComment.trim()) {
-      setBeach({
-        ...beach,
-        comments: [...beach.comments, newComment]
-      });
-      setNewComment(''); // Clear the comment input after submission
+      // Merge parsed data with defaults to avoid missing fields
+      setBeach((prevState) => ({
+        ...prevState,
+        ...parsedData,
+        name: name || prevState.name,
+        description: parsedData.description || prevState.description,
+        quality: parsedData.quality || prevState.quality,
+        temperature: parsedData.temperature || prevState.temperature,
+        windSpeed: parsedData.windSpeed || prevState.windSpeed,
+        funFacts: parsedData.funFacts || prevState.funFacts,
+        sources: parsedData.sources || prevState.sources,
+        comments: parsedData.comments || prevState.comments,
+      }));
     }
-  };
+  }, [name]);
 
   return (
     <div className="beach-details">
@@ -67,17 +73,6 @@ const BeachDetailsComponent: React.FC = () => {
               <li key={index}>{comment}</li>
             ))}
           </ul>
-          <form onSubmit={handleCommentSubmit} className="comment-form">
-            <label htmlFor="newComment">Add a Comment:</label>
-            <textarea
-              id="newComment"
-              value={newComment}
-              onChange={(e) => setNewComment(e.target.value)}
-              rows={4}
-              required
-            />
-            <button type="submit">Submit</button>
-          </form>
         </div>
       </div>
     </div>

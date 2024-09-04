@@ -5,7 +5,7 @@ body {
 
 .map-page {
     padding: 20px;
-    font-family: Arial, sans-serif;
+    font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
     background-color: #f0f0f0;
     min-height: 100vh;
 }
