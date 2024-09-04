@@ -16,27 +16,53 @@ const BeachDetailsComponent: React.FC = () => {
     sources: ['Source 1', 'Source 2'],
     comments: ['Nice place!', 'Very clean and friendly.']
   });
+  const [newComment, setNewComment] = useState('');
 
   useEffect(() => {
-    const storedData = localStorage.getItem(name || '');
-    if (storedData) {
-      const parsedData = JSON.parse(storedData);
+    const fetchBeachDetails = () => {
+      const storedData = localStorage.getItem(name || '');
+      if (storedData) {
+        const parsedData = JSON.parse(storedData);
 
-      // Merge parsed data with defaults to avoid missing fields
-      setBeach((prevState) => ({
-        ...prevState,
-        ...parsedData,
-        name: name || prevState.name,
-        description: parsedData.description || prevState.description,
-        quality: parsedData.quality || prevState.quality,
-        temperature: parsedData.temperature || prevState.temperature,
-        windSpeed: parsedData.windSpeed || prevState.windSpeed,
-        funFacts: parsedData.funFacts || prevState.funFacts,
-        sources: parsedData.sources || prevState.sources,
-        comments: parsedData.comments || prevState.comments,
-      }));
-    }
+        setBeach((prevState) => ({
+          ...prevState,
+          ...parsedData,
+          name: name || prevState.name,
+          description: parsedData.description || prevState.description,
+          quality: parsedData.quality || prevState.quality,
+          temperature: parsedData.temperature || prevState.temperature,
+          windSpeed: parsedData.windSpeed || prevState.windSpeed,
+          funFacts: parsedData.funFacts || prevState.funFacts,
+          sources: parsedData.sources || prevState.sources,
+          comments: parsedData.comments || prevState.comments,
+        }));
+      }
+    };
+
+    fetchBeachDetails();
+
+    // Optional: Poll for changes if localStorage is updated from elsewhere
+    const intervalId = setInterval(fetchBeachDetails, 1000); // Check every second
+
+    return () => clearInterval(intervalId); // Cleanup on unmount
   }, [name]);
+
+  const handleCommentSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+
+    if (newComment.trim() === '') return;
+
+    const updatedComments = [...beach.comments, newComment];
+    setBeach((prevState) => ({
+      ...prevState,
+      comments: updatedComments,
+    }));
+
+    // Save to local storage
+    localStorage.setItem(name || '', JSON.stringify({ ...beach, comments: updatedComments }));
+
+    setNewComment(''); // Clear the input after submission
+  };
 
   return (
     <div className="beach-details">
@@ -73,6 +99,18 @@ const BeachDetailsComponent: React.FC = () => {
               <li key={index}>{comment}</li>
             ))}
           </ul>
+          <form onSubmit={handleCommentSubmit} className="comment-form">
+            <input
+              type="text"
+              placeholder="Add a comment..."
+              value={newComment}
+              onChange={(e) => setNewComment(e.target.value)}
+              className="comment-input"
+            />
+            <button type="submit" className="comment-button">
+              Submit
+            </button>
+          </form>
         </div>
       </div>
     </div>

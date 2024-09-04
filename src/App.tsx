@@ -22,11 +22,21 @@ const App: React.FC = () => {
           <Routes>
             <Route path="/" element={<HomePageComponent />} />
             <Route path="/beach/:name" element={<BeachDetailsComponent />} />
-            <Route path="/login" element={<LoginComponent setIsLoggedIn={setIsLoggedIn} setIsAdmin={setIsAdmin} />} />
+            <Route 
+              path="/login" 
+              element={<LoginComponent setIsLoggedIn={setIsLoggedIn} setIsAdmin={setIsAdmin} />} 
+            />
             <Route path="/map" element={<MapPageComponent />} />
             <Route path="/education" element={<EducationalContentComponent />} />
             <Route path="/help" element={<HelpPage />} /> 
-            {isLoggedIn && isAdmin && <Route path="/admin" element={<AdminPageComponent />} />}
+            {isLoggedIn && isAdmin && (
+              <Route 
+                path="/admin" 
+                element={<AdminPageComponent setIsLoggedIn={setIsLoggedIn} setIsAdmin={setIsAdmin} />} 
+              />
+            )}
+            {/* Redirect to login if not logged in */}
+            <Route path="*" element={<HomePageComponent />} />
           </Routes>
         </main>
       </div>
