@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { useParams } from 'react-router-dom';
 import { Beach } from '../types/types';
 import HeaderComponent from './HeaderComponent';
@@ -8,7 +8,7 @@ const BeachDetailsComponent: React.FC = () => {
   const { name } = useParams<{ name: string }>();
   
   // Example beach details (replace with actual data fetching)
-  const beach: Beach = {
+  const [beach, setBeach] = useState<Beach>({
     name: name || '',
     quality: 'Good',
     description: 'A beautiful beach with golden sands and clear waters.',
@@ -17,6 +17,19 @@ const BeachDetailsComponent: React.FC = () => {
     funFacts: 'Great for swimming and sunbathing.',
     sources: ['Source 1', 'Source 2'],
     comments: ['Nice place!', 'Very clean and friendly.']
+  });
+
+  const [newComment, setNewComment] = useState('');
+
+  const handleCommentSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    if (newComment.trim()) {
+      setBeach({
+        ...beach,
+        comments: [...beach.comments, newComment]
+      });
+      setNewComment(''); // Clear the comment input after submission
+    }
   };
 
   return (
@@ -54,6 +67,17 @@ const BeachDetailsComponent: React.FC = () => {
               <li key={index}>{comment}</li>
             ))}
           </ul>
+          <form onSubmit={handleCommentSubmit} className="comment-form">
+            <label htmlFor="newComment">Add a Comment:</label>
+            <textarea
+              id="newComment"
+              value={newComment}
+              onChange={(e) => setNewComment(e.target.value)}
+              rows={4}
+              required
+            />
+            <button type="submit">Submit</button>
+          </form>
         </div>
       </div>
     </div>
