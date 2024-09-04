@@ -1,56 +1,32 @@
-import React, { Component } from 'react';
-import BeachList from './components/BeachList';
-import MapPage from './components/MapPage';
-import HelpPage from './components/HelpPage';
+import React from 'react';
+import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
+import HomePageComponent from './components/HomePageComponent';
+import BeachDetailsComponent from './components/BeachDetailsComponent';
+import LoginComponent from './components/LoginComponent';
+import MapPageComponent from './components/MapPageComponent';
+import EducationalContentComponent from './components/EducationalContentComponent';
+import Navbar from './components/NavBar'; // Import Navbar
+import HelpPage from './components/HelpPage'; 
+import './styles.css';
 
-type State = {
-  currentPage: 'beachList' | 'map' | 'help';
-  selectedButton: 'beachList' | 'map' | 'help'; // 
-};
-
-class App extends Component<{}, State> {
-  state: State = {
-    currentPage: 'beachList',
-    selectedButton: 'beachList'
-  };
-
-  // Method to change the current page
-  handlePageChange = (page: 'beachList' | 'map' | 'help') => {
-    this.setState({ currentPage: page });
-  };
-handleButtonClick = (button: 'beachList' | 'map' | 'help') => {
-  this.setState({ 
-    currentPage: button,
-    selectedButton: button 
-  });
-};
-  render() {
-    const { currentPage } = this.state;
-
-    return (
-      <div>
-        {/* Navigation Links */}
-        {/* <nav>
-          <ul>
-            <li>
-              <button onClick={() => this.handlePageChange('beachList')}>Beach List</button>
-            </li>
-            <li>
-              <button onClick={() => this.handlePageChange('map')}>Map</button>
-            </li>
-            <li>
-              <button onClick={() => this.handlePageChange('help')}>Help</button>
-            </li>
-          </ul>
-        </nav> */}
-
-        {/* Render Components Based on Current Page */}
-        {currentPage === 'beachList' && <BeachList />}
-        {/* {currentPage === 'map' && <MapPage />}
-        {currentPage === 'help' && <HelpPage />} */}
+const App: React.FC = () => {
+  return (
+    <Router>
+      <div className="App">
+        <Navbar /> {/* Include Navbar here */}
+        <main>
+          <Routes>
+            <Route path="/" element={<HomePageComponent />} />
+            <Route path="/beach/:name" element={<BeachDetailsComponent />} />
+            <Route path="/login" element={<LoginComponent />} />
+            <Route path="/map" element={<MapPageComponent />} />
+            <Route path="/education" element={<EducationalContentComponent />} />
+            <Route path="/help" element={<HelpPage />} /> 
+          </Routes>
+        </main>
       </div>
-    );
-  }
-}
+    </Router>
+  );
+};
 
 export default App;

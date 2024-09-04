@@ -1,24 +1,44 @@
-.help-page {
-    padding: 20px;
-    font-family: Arial, sans-serif;
+/* Ensure the header is fixed and does not overlap content */
+.header-fixed {
+    padding-top: 60px;
+    /* Adjust according to the height of the header */
 }
 
+/* Styling for the help page */
+.help-page {
+    font-family: Arial, sans-serif;
+    background-color: #f4f4f4;
+    padding: 20px;
+    min-height: 100vh;
+}
+
+/* Heading styles */
 .help-page h1 {
     text-align: center;
-    margin-bottom: 20px;
+    font-size: 2.5rem;
+    color: #0077cc;
+    margin-bottom: 30px;
 }
 
+/* FAQ item styles */
 .faq-item {
+    background: #fff;
+    border-radius: 8px;
+    padding: 20px;
     margin-bottom: 20px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
 }
 
+/* FAQ question styles */
 .faq-item h2 {
-    font-size: 1.2em;
+    font-size: 1.5rem;
     color: #333;
+    margin-bottom: 10px;
 }
 
+/* FAQ answer styles */
 .faq-item p {
-    font-size: 1em;
-    line-height: 1.5;
+    font-size: 1rem;
     color: #666;
+    line-height: 1.6;
 }

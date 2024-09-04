@@ -1,0 +1,60 @@
+.home-page {
+    font-family: Arial, sans-serif;
+    background-color: #f9f9f9;
+    padding: 20px;
+    min-height: 100vh;
+    background-image: url('https://upload.wikimedia.org/wikipedia/commons/6/60/Clifton_Beachs.jpg');
+        /* Path to your image */
+        background-size: cover;
+        /* Make sure the image covers the entire container */
+        background-position: center;
+        /* Center the image */
+        background-repeat: no-repeat;
+        /* Prevent repeating the image */
+}
+
+.welcome-section {
+    text-align: center;
+    margin-bottom: 30px;
+    color: #d2e3e4;
+}
+
+.welcome-section h2 {
+    font-size: 2.5rem;
+    color: #ffffff;
+    margin-bottom: 10px;
+}
+
+.welcome-section p {
+    font-size: 1.2rem;
+    color: #ffffff;
+}
+
+.beach-list {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    color: #f9f9f9;
+}
+
+.beach-link {
+    display: block;
+    background-color: #0077cc;
+    color: #a34646;
+    padding: 15px 20px;
+    margin: 10px 0;
+    border-radius: 5px;
+    text-decoration: none;
+    font-size: 1.2rem;
+    transition: background-color 0.3s;
+    
+}
+
+.beach-link:hover {
+    background-color: #005fa3;
+}
+.home-page .beach-list .beach-link {
+    color: #d2e3e4;
+    font-family:'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif
+    /* Desired text color */
+}

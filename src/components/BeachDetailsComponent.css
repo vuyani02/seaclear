@@ -1,0 +1,61 @@
+.beach-details {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #f0f8ff;
+    /* Light background color */
+}
+
+.beach-details-content {
+    max-width: 1200px;
+    margin: 20px auto;
+    padding: 20px;
+    background-color: #ffffff;
+    /* White background for content */
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.beach-name {
+    font-size: 2rem;
+    color: #333;
+    border-bottom: 2px solid #0077cc;
+    padding-bottom: 10px;
+    margin-bottom: 20px;
+}
+
+.beach-description {
+    font-size: 1.2rem;
+    color: #666;
+    margin-bottom: 20px;
+}
+
+.beach-details-info {
+    margin-bottom: 20px;
+}
+
+.info-item {
+    font-size: 1rem;
+    margin-bottom: 10px;
+}
+
+.info-item strong {
+    color: #0077cc;
+}
+
+.beach-sources,
+.beach-comments {
+    margin-bottom: 20px;
+}
+
+.beach-sources ul,
+.beach-comments ul {
+    list-style: none;
+    padding: 0;
+}
+
+.beach-sources li,
+.beach-comments li {
+    font-size: 1rem;
+    margin-bottom: 5px;
+}

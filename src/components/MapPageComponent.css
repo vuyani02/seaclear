@@ -1,0 +1,27 @@
+/* Ensure the body margin is reset to avoid unwanted spacing */
+body {
+    margin: 0;
+}
+
+.map-page {
+    padding: 20px;
+    font-family: Arial, sans-serif;
+    background-color: #f0f0f0;
+    min-height: 100vh;
+}
+
+.map-heading {
+    margin-top: 20px;
+    /* Adjust based on header height */
+    font-size: 2rem;
+    /* Adjust font size if needed */
+    color: #333;
+    /* Adjust text color if needed */
+    /* Center align the heading */
+}
+
+/* You can add more styles for map implementation */
+.map-content {
+    margin-top: 20px;
+    /* Spacing below the heading */
+}

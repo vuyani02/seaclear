@@ -1,0 +1,70 @@
+/* HeaderComponent.css */
+.header {
+    position: relative;
+    background-color: #0077cc;
+    /* Adjust the background color as needed */
+    padding: 10px;
+    color: #fff;
+    z-index: 10;
+    
+        /* Adjust z-index if needed */
+}
+.header h1 {
+    margin-top: 20px;
+    /* Adjust as needed */
+}
+
+.logo {
+    text-align: center;
+    margin-bottom: 10px;
+    /* Space between the logo and navigation */
+}
+
+.logo h1 {
+    margin: 0;
+    font-size: 2.5rem;
+    /* Adjust the size as needed */
+}
+
+.navbar {
+    display: flex;
+    justify-content: center;
+}
+
+.navbar ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+}
+
+.navbar li {
+    margin: 0 10px;
+    /* Space between navigation items */
+}
+
+.nav-link {
+    color: #fff;
+    text-decoration: none;
+    font-size: 1.2rem;
+    /* Adjust the size as needed */
+    padding: 10px 20px;
+    border-radius: 5px;
+}
+
+.nav-link:hover {
+    background-color: #005fa3;
+    /* Hover effect */
+    transition: background-color 0.3s;
+}
+
+/* Ensure responsiveness */
+@media (max-width: 768px) {
+    .navbar ul {
+        flex-direction: column;
+    }
+
+    .navbar li {
+        margin: 5px 0;
+    }
+}
