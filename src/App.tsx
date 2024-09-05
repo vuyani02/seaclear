@@ -9,6 +9,7 @@ import EducationalContentComponent from './components/EducationalContentComponen
 import Navbar from './components/NavBar'; 
 import HelpPage from './components/HelpPage'; 
 import './styles.css';
+import 'leaflet/dist/leaflet.css';
 
 const App: React.FC = () => {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
@@ -20,6 +21,7 @@ const App: React.FC = () => {
         <Navbar />
         <main>
           <Routes>
+            <Route path="/map" element={<MapPageComponent />} />
             <Route path="/" element={<HomePageComponent />} />
             <Route path="/beach/:name" element={<BeachDetailsComponent />} />
             <Route 
