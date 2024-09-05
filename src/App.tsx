@@ -3,6 +3,8 @@ import BeachList from './components/BeachList';
 import MapPage from './components/MapPage';
 import HelpPage from './components/HelpPage';
 
+
+
 type State = {
   currentPage: 'beachList' | 'map' | 'help';
   selectedButton: 'beachList' | 'map' | 'help'; // 
