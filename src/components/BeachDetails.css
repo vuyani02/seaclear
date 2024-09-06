@@ -1,0 +1,78 @@
+.details-container {
+    background-color: white;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    padding: 2rem;
+    max-width: 800px;
+    margin: 2rem auto;
+}
+
+.back-button {
+    background-color: #6c757d;
+    color: white;
+    border: none;
+    padding: 0.5rem 1rem;
+    cursor: pointer;
+    border-radius: 4px;
+    margin-bottom: 1rem;
+}
+
+.back-button:hover {
+    background-color: #5a6268;
+}
+
+.beach-details {
+    margin-bottom: 2rem;
+}
+
+.view-sources-button {
+    background-color: #007bff;
+    color: white;
+    border: none;
+    padding: 0.5rem 1rem;
+    cursor: pointer;
+    border-radius: 4px;
+    margin-bottom: 1rem;
+}
+
+.view-sources-button:hover {
+    background-color: #0056b3;
+}
+
+.sources-list ul {
+    list-style-type: none;
+    padding: 0;
+}
+
+.sources-list li {
+    padding: 0.5rem 0;
+}
+
+.comment-input {
+    width: 100%;
+    padding: 0.5rem;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+}
+
+.comment-button {
+    background-color: #28a745;
+    color: white;
+    border: none;
+    padding: 0.5rem 1rem;
+    cursor: pointer;
+    border-radius: 4px;
+}
+
+.comment-button:hover {
+    background-color: #218838;
+}
+
+.comment-list {
+    list-style-type: none;
+    padding: 0;
+}
+
+.comment-list li {
+    padding: 0.5rem 0;
+}

@@ -8,6 +8,7 @@ import BeachDetailsComponent from './components/BeachDetailsComponent'; // Ensur
 import HomePageComponent from './components/HomePageComponent'; 
 import LoginComponent from './components/LoginComponent';
 import EducationalContentComponent from './components/EducationalContentComponent';
+<<<<<<< Updated upstream
 import AdminPageComponent from './components/AdminPageComponent';
 
 type State = {
@@ -15,6 +16,45 @@ type State = {
   selectedButton: 'beachList' | 'map' | 'help';
   isLoggedIn: boolean; // Add isLoggedIn
   isAdmin: boolean;    // Add isAdmin
+=======
+import Navbar from './components/NavBar'; 
+import HelpPage from './components/HelpPage'; 
+import './styles.css';
+
+const App: React.FC = () => {
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const [isAdmin, setIsAdmin] = useState(false);
+
+  return (
+    <Router>
+      <div className="App">
+        <Navbar />
+        <main>
+          <Routes>
+            
+            <Route path="/" element={<HomePageComponent />} />
+            <Route path="/beach/:name" element={<BeachDetailsComponent />} />
+            <Route 
+              path="/login" 
+              element={<LoginComponent setIsLoggedIn={setIsLoggedIn} setIsAdmin={setIsAdmin} />} 
+            />
+            <Route path="/map" element={<MapPageComponent />} />
+            <Route path="/education" element={<EducationalContentComponent />} />
+            <Route path="/help" element={<HelpPage />} /> 
+            {isLoggedIn && isAdmin && (
+              <Route 
+                path="/admin" 
+                element={<AdminPageComponent setIsLoggedIn={setIsLoggedIn} setIsAdmin={setIsAdmin} />} 
+              />
+            )}
+            {/* Redirect to login if not logged in */}
+            <Route path="*" element={<HomePageComponent />} />
+          </Routes>
+        </main>
+      </div>
+    </Router>
+  );
+>>>>>>> Stashed changes
 };
 
 class App extends Component<{}, State> {
