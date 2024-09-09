@@ -3,16 +3,14 @@ import { Link } from 'react-router-dom';
 import './HomePageComponent.css'; // Import the CSS file for styling
 
 const HomePageComponent: React.FC = () => {
-  // Sample beaches list
   const beaches = [
-    { name: 'Beach 1' },
-    { name: 'Beach 2' },
+    { name: 'Beach 1', description: 'A popular beach with clear waters.', status: 'SAFE' },
+    { name: 'Beach 2', description: 'A quieter beach with occasional pollution.', status: 'UNSAFE' },
     // Add more beach entries here
   ];
 
   const [searchQuery, setSearchQuery] = useState('');
 
-  // Filter beaches based on the search query
   const filteredBeaches = beaches.filter(beach =>
     beach.name.toLowerCase().includes(searchQuery.toLowerCase())
   );
@@ -35,9 +33,15 @@ const HomePageComponent: React.FC = () => {
       <div className="beach-list">
         {filteredBeaches.length > 0 ? (
           filteredBeaches.map(beach => (
-            <Link key={beach.name} to={`/beach/${beach.name}`} className="beach-link">
-              {beach.name}
-            </Link>
+            <div key={beach.name} className="beach-item">
+              <Link to={`/beach/${beach.name}`} className="beach-link">
+                <h3>{beach.name}</h3>
+              </Link>
+              <p>{beach.description}</p>
+              <p className={`beach-status ${beach.status.toLowerCase()}`}>
+                {beach.status}
+              </p>
+            </div>
           ))
         ) : (
           <p>No beaches found</p>

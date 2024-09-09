@@ -58,3 +58,91 @@
     font-family:'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif
     /* Desired text color */
 }
+.search-section {
+    margin: 20px;
+    text-align: center;
+}
+
+.search-bar {
+    width: 300px;
+    padding: 10px;
+    font-size: 16px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+}
+
+.beach-list {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.beach-item {
+    margin: 10px 0;
+    text-align: center;
+}
+
+.beach-link {
+    text-decoration: none;
+    color: #007bff;
+    font-size: 20px;
+}
+
+.beach-link:hover {
+    text-decoration: underline;
+}
+
+.beach-status {
+    font-weight: bold;
+}
+
+.beach-status.safe {
+    color: green;
+}
+
+.beach-status.unsafe {
+    color: red;
+}
+
+.beach-item {
+    width: 300px;
+    /* Set a fixed width */
+    padding: 20px;
+    /* Add padding inside each box */
+    margin: 10px;
+    /* Space between boxes */
+    border: 1px solid #ddd;
+    /* Border around each box */
+    border-radius: 8px;
+    /* Rounded corners */
+    text-align: center;
+    /* Center text inside the box */
+    background-color: #f9f9f9;
+    /* Background color */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    /* Add a subtle shadow */
+}
+
+.beach-link {
+    text-decoration: none;
+    color: #007bff;
+    font-size: 20px;
+}
+
+.beach-link:hover {
+    text-decoration: underline;
+}
+
+.beach-status {
+    font-weight: bold;
+    margin-top: 10px;
+    /* Space above the status */
+}
+
+.beach-status.safe {
+    color: green;
+}
+
+.beach-status.unsafe {
+    color: red;
+}
