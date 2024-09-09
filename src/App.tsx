@@ -8,6 +8,7 @@ import EducationalContentComponent from './components/EducationalContentComponen
 import AdminPageComponent from './components/AdminPageComponent';
 import MapPage from './components/MapPage';
 import HelpPage from './components/HelpPage';
+import ReportPage from './components/ReportPage'; 
 
 type State = {
   isLoggedIn: boolean;
@@ -49,8 +50,11 @@ class App extends Component<{}, State> {
                   />
                 }
               />
+              
               <Route path="/education" element={<EducationalContentComponent />} />
               <Route path="/help" element={<HelpPage />} />
+              <Route path="/report" element={<ReportPage />} />
+              
               {isLoggedIn && isAdmin && (
                 <Route
                   path="/admin"
