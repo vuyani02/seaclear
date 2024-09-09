@@ -1,63 +1,79 @@
 import React, { useState } from 'react';
-import { Link } from 'react-router-dom';
-import './ReportPage.css'; // Import the CSS file for styling
+import './ReportPage.css';
 
-const beaches = [
-  { name: 'Beach 1', description: 'A lovely sandy beach.' },
-  { name: 'Beach 2', description: 'A quiet and peaceful beach.' },
-  // Add more beaches as needed
-];
-
-const ReportPage: React.FC = () => {
+const ReportPageComponent: React.FC = () => {
   const [selectedBeach, setSelectedBeach] = useState('');
+  const [rating, setRating] = useState<number | null>(null); // Store the user's rating
+  const [hoverRating, setHoverRating] = useState<number | null>(null); // For hover effect
   const [report, setReport] = useState('');
   const [successMessage, setSuccessMessage] = useState('');
+
+  const beaches = ['Beach 1', 'Beach 2', 'Beach 3']; // Add available beaches here
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
 
-    if (selectedBeach.trim() === '' || report.trim() === '') return;
+    // Update the stored data for the selected beach
+    const storedData = localStorage.getItem(selectedBeach);
+    const parsedData = storedData ? JSON.parse(storedData) : { reports: [], ratings: [] };
 
-    // Save the report (e.g., send it to an API or store it locally)
-    console.log(`Report for ${selectedBeach}: ${report}`);
+    const updatedData = {
+      ...parsedData,
+      reports: [...parsedData.reports, report],
+      ratings: [...parsedData.ratings, rating],
+    };
 
-    // Clear the form and show success message
+    localStorage.setItem(selectedBeach, JSON.stringify(updatedData));
+
+    setReport(''); // Clear form after submission
+    setRating(null);
+    setHoverRating(null);
     setSelectedBeach('');
-    setReport('');
-    setSuccessMessage('Report submitted successfully!');
+    setSuccessMessage('Report submitted successfully');
   };
 
   return (
     <div className="report-page">
-      <h2>Submit a Report</h2>
+      <h2>Submit a Beach Report</h2>
       {successMessage && <p className="success-message">{successMessage}</p>}
+
       <form onSubmit={handleSubmit} className="report-form">
-        <label htmlFor="beach-select">Select Beach:</label>
-        <select
-          id="beach-select"
-          value={selectedBeach}
-          onChange={(e) => setSelectedBeach(e.target.value)}
-        >
+        <label className="form-label">Select Beach:</label>
+        <select value={selectedBeach} onChange={(e) => setSelectedBeach(e.target.value)} required className="form-select">
           <option value="">Select a beach</option>
-          {beaches.map((beach) => (
-            <option key={beach.name} value={beach.name}>
-              {beach.name} - {beach.description}
-            </option>
+          {beaches.map((beach, index) => (
+            <option key={index} value={beach}>{beach}</option>
           ))}
         </select>
-        <label htmlFor="report">Report:</label>
+
+        <label className="form-label">Rate the Beach (out of 5):</label>
+        <div className="star-rating">
+          {[1, 2, 3, 4, 5].map((star) => (
+            <span
+              key={star}
+              className={`star ${rating && rating >= star ? 'filled' : ''} ${hoverRating && hoverRating >= star ? 'hovered' : ''}`}
+              onClick={() => setRating(star)}
+              onMouseEnter={() => setHoverRating(star)}
+              onMouseLeave={() => setHoverRating(null)}
+            >
+              ★
+            </span>
+          ))}
+        </div>
+
+        <label className="form-label">Report:</label>
         <textarea
-          id="report"
           value={report}
           onChange={(e) => setReport(e.target.value)}
-          placeholder="Enter your report"
+          placeholder="Enter your report..."
+          required
+          className="form-textarea"
         />
-        <button type="submit" className="submit-button">
-          Submit Report
-        </button>
+
+        <button type="submit" className="submit-button">Submit Report</button>
       </form>
     </div>
   );
 };
 
-export default ReportPage;
+export default ReportPageComponent;
