@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { useParams } from 'react-router-dom';
+import { useParams, useNavigate } from 'react-router-dom';
 import { Beach } from '../types/types';
 //import HeaderComponent from './HeaderComponent';
 import './BeachDetailsComponent.css';
@@ -17,6 +17,7 @@ const BeachDetailsComponent: React.FC = () => {
     comments: ['Nice place!', 'Very clean and friendly.']
   });
   const [newComment, setNewComment] = useState('');
+  const navigate = useNavigate(); // Initialize the useNavigate hook
 
   useEffect(() => {
     const fetchBeachDetails = () => {
@@ -67,6 +68,9 @@ const BeachDetailsComponent: React.FC = () => {
   return (
     <div className="beach-details">
       {/* <HeaderComponent /> */}
+      <button className="back-button" onClick={() => navigate('/')}>
+        &larr; Back to Home
+      </button>
       <div className="beach-details-content">
         <h2 className="beach-name">{beach.name}</h2>
         <p className="beach-description">{beach.description}</p>
