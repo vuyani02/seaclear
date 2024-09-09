@@ -1,11 +1,11 @@
 import React from 'react';
-import HeaderComponent from './HeaderComponent';
+// import HeaderComponent from './HeaderComponent';
 import './HelpPage.css';
 
 const HelpPage: React.FC = () => {
   return (
     <div className="header-fixed">
-      <HeaderComponent />
+      {/* <HeaderComponent /> */}s
       <div className="help-page">
         <h1>Help & FAQ</h1>
         <div className="faq-item">

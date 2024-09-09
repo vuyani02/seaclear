@@ -1,11 +1,11 @@
 import React from 'react';
-import HeaderComponent from './HeaderComponent';
+//import HeaderComponent from './HeaderComponent';
 import './EducationalContentComponent.css'; // Import the CSS file for styling
 
 const EducationalContentComponent: React.FC = () => {
   return (
     <div className="educational-content">
-      <HeaderComponent />
+      {/* <HeaderComponent /> */}
       <div className="content-container">
         <h2>Educational Content</h2>
         <section className="section">

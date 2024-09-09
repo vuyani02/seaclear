@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import { Beach } from '../types/types';
-import HeaderComponent from './HeaderComponent';
+//import HeaderComponent from './HeaderComponent';
 import './BeachDetailsComponent.css';
 
 const BeachDetailsComponent: React.FC = () => {
@@ -66,7 +66,7 @@ const BeachDetailsComponent: React.FC = () => {
 
   return (
     <div className="beach-details">
-      <HeaderComponent />
+      {/* <HeaderComponent /> */}
       <div className="beach-details-content">
         <h2 className="beach-name">{beach.name}</h2>
         <p className="beach-description">{beach.description}</p>

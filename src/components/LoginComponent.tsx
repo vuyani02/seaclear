@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import HeaderComponent from './HeaderComponent';
+// import HeaderComponent from './HeaderComponent';
 import './LoginComponent.css'; // Import the CSS file for styling
 
 interface LoginComponentProps {
@@ -27,7 +27,7 @@ const LoginComponent: React.FC<LoginComponentProps> = ({ setIsLoggedIn, setIsAdm
 
   return (
     <div className="login-page">
-      <HeaderComponent />
+      {/* <HeaderComponent /> */}
       <div className="login-container">
         <h2>Login to SeaClear</h2>
         <form onSubmit={handleSubmit} className="login-form">

@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
-import Navbar from './components/NavBar'; // Using the correct Navbar component
+import HeaderComponent from './components/HeaderComponent'; // Import HeaderComponent
 import BeachDetailsComponent from './components/BeachDetailsComponent';
 import HomePageComponent from './components/HomePageComponent';
 import LoginComponent from './components/LoginComponent';
@@ -10,26 +10,20 @@ import MapPage from './components/MapPage';
 import HelpPage from './components/HelpPage';
 
 type State = {
-  currentPage: 'beachList' | 'map' | 'help';
-  selectedButton: 'beachList' | 'map' | 'help';
   isLoggedIn: boolean;
   isAdmin: boolean;
 };
 
 class App extends Component<{}, State> {
   state: State = {
-    currentPage: 'beachList',
-    selectedButton: 'beachList',
     isLoggedIn: false,
     isAdmin: false,
   };
 
-  // Method to set login status
   setIsLoggedIn = (isLoggedIn: boolean) => {
     this.setState({ isLoggedIn });
   };
 
-  // Method to set admin status
   setIsAdmin = (isAdmin: boolean) => {
     this.setState({ isAdmin });
   };
@@ -40,8 +34,7 @@ class App extends Component<{}, State> {
     return (
       <Router>
         <div className="App">
-          {/* Single Navbar component */}
-          <Navbar />
+          <HeaderComponent /> {/* Include HeaderComponent here */}
           <main>
             <Routes>
               <Route path="/" element={<HomePageComponent />} />
