@@ -18,6 +18,7 @@ const BeachDetailsComponent: React.FC = () => {
   });
   const [newComment, setNewComment] = useState('');
   const navigate = useNavigate(); // Initialize the useNavigate hook
+  const [averageRating, setAverageRating] = useState<number>(0);
 
   useEffect(() => {
     const fetchBeachDetails = () => {
@@ -37,6 +38,14 @@ const BeachDetailsComponent: React.FC = () => {
           sources: parsedData.sources || prevState.sources,
           comments: parsedData.comments || prevState.comments,
         }));
+        const ratings = parsedData.ratings || [];
+        if (ratings.length > 0) {
+          const total = ratings.reduce((sum: number, rating: number) => sum + rating, 0);
+          setAverageRating(total / ratings.length);
+        } else {
+          setAverageRating(0);
+        }
+      
       }
     };
 
@@ -88,6 +97,15 @@ const BeachDetailsComponent: React.FC = () => {
             <strong>Fun Facts:</strong> {beach.funFacts}
           </div>
         </div>
+              <div className="beach-rating">
+        <h3>Average Rating:</h3>
+        <div className="star-rating">
+          {[1, 2, 3, 4, 5].map((star) => (
+            <span key={star} className={`star ${averageRating >= star ? 'filled' : ''}`}>★</span>
+          ))}
+        </div>
+        <p>({averageRating.toFixed(1)} out of 5)</p>
+      </div>
         <div className="beach-sources">
           <h3>Sources:</h3>
           <ul>
