@@ -13,10 +13,10 @@ const HeaderComponent: React.FC = () => {
           <li><Link to="/" className="nav-link">Home</Link></li>
           <li><Link to="/map" className="nav-link">Map</Link></li>
           <li><Link to="/education" className="nav-link">Educational Content</Link></li>
-          <li><Link to="/login" className="nav-link">Login</Link></li>
           <li><Link to="/webcams" className="nav-link">Webcams</Link></li>
           <li><Link to="/help" className="nav-link">Help Page</Link></li>
           <li><Link to="/report" className="nav-link">Submit Report</Link></li>
+          <li><Link to="/login" className="nav-link">Admin Login</Link></li>
           
         </ul>
       </nav>

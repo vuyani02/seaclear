@@ -1,148 +1,139 @@
+/* General Styling */
+body {
+    font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
 .home-page {
-    font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
-    background-color: #f9f9f9;
-    padding: 20px;
+    font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+    background-color: #f4f7f9;
+    padding: 20px 20px;
+    /* Reduced padding to move it higher */
     min-height: 100vh;
-    background-image: url('https://upload.wikimedia.org/wikipedia/commons/6/60/Clifton_Beachs.jpg');
-        /* Path to your image */
-        background-size: cover;
-        /* Make sure the image covers the entire container */
-        background-position: center;
-        /* Center the image */
-        background-repeat: no-repeat;
-        /* Prevent repeating the image */
+    background-image: linear-gradient(rgba(0, 0, 0, 0.3), rgba(0, 0, 0, 0.3)),
+        url('https://upload.wikimedia.org/wikipedia/commons/6/60/Clifton_Beachs.jpg');
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    /* Align content to the top */
+    align-items: center;
+    /* Center all the content horizontally */
 }
 
 .welcome-section {
     text-align: center;
     margin-bottom: 30px;
-    color: #d2e3e4;
+    color: #ffffff;
+    animation: fadeIn 1s ease-in-out;
 }
 
 .welcome-section h2 {
-    font-size: 2.5rem;
+    font-size: 3rem;
     color: #ffffff;
-    margin-bottom: 10px;
+    margin-bottom: 20px;
+    letter-spacing: 2px;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
 }
 
 .welcome-section p {
-    font-size: 1.2rem;
-    color: #ffffff;
+    font-size: 1.4rem;
+    color: #f1f1f1;
+    text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.5);
 }
 
-.beach-list {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    color: #f9f9f9;
-}
-
-.beach-link {
-    display: block;
-    background-color: #0077cc;
-    color: #a34646;
-    padding: 15px 20px;
-    margin: 10px 0;
-    border-radius: 5px;
-    text-decoration: none;
-    font-size: 1.2rem;
-    transition: background-color 0.3s;
-    
-}
-
-.beach-link:hover {
-    background-color: #005fa3;
-}
-.home-page .beach-list .beach-link {
-    color: #d2e3e4;
-    font-family:'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif
-    /* Desired text color */
-}
 .search-section {
-    margin: 20px;
+    margin: 20px 0;
     text-align: center;
 }
 
 .search-bar {
-    width: 300px;
-    padding: 10px;
+    width: 350px;
+    padding: 12px 18px;
     font-size: 16px;
     border: 1px solid #ddd;
-    border-radius: 4px;
+    border-radius: 25px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    outline: none;
+    transition: all 0.3s ease;
+}
+
+.search-bar:focus {
+    border-color: #007bff;
+    box-shadow: 0 4px 8px rgba(0, 123, 255, 0.2);
 }
 
 .beach-list {
     display: flex;
     flex-direction: column;
+    /* Vertical layout */
     align-items: center;
+    /* Center the beach items horizontally */
+    width: 100%;
+    max-width: 600px;
+    /* Limit width to keep the list narrow */
 }
 
 .beach-item {
-    margin: 10px 0;
+    background-color: rgba(255, 255, 255, 0.9);
+    padding: 25px;
+    margin-bottom: 20px;
+    /* Add space between each beach */
+    border-radius: 15px;
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.1);
     text-align: center;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    cursor: pointer;
+    width: 100%;
+    /* Ensure beach items take full width */
+    max-width: 500px;
+    /* Keep a consistent size */
+}
+
+.beach-item:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 15px rgba(0, 0, 0, 0.2);
 }
 
 .beach-link {
     text-decoration: none;
-    color: #007bff;
-    font-size: 20px;
+    color: #333;
+    font-size: 1.5rem;
+    font-weight: bold;
+    transition: color 0.3s ease;
 }
 
 .beach-link:hover {
-    text-decoration: underline;
+    color: #007bff;
 }
 
 .beach-status {
     font-weight: bold;
+    margin-top: 15px;
+    font-size: 1.1rem;
 }
 
 .beach-status.safe {
-    color: green;
+    color: #28a745;
+    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.1);
 }
 
 .beach-status.unsafe {
-    color: red;
+    color: #dc3545;
+    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.1);
 }
 
-.beach-item {
-    width: 300px;
-    /* Set a fixed width */
-    padding: 20px;
-    /* Add padding inside each box */
-    margin: 10px;
-    /* Space between boxes */
-    border: 1px solid #ddd;
-    /* Border around each box */
-    border-radius: 8px;
-    /* Rounded corners */
-    text-align: center;
-    /* Center text inside the box */
-    background-color: #f9f9f9;
-    /* Background color */
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-    /* Add a subtle shadow */
-}
+/* Animations */
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+    }
 
-.beach-link {
-    text-decoration: none;
-    color: #007bff;
-    font-size: 20px;
-}
-
-.beach-link:hover {
-    text-decoration: underline;
-}
-
-.beach-status {
-    font-weight: bold;
-    margin-top: 10px;
-    /* Space above the status */
-}
-
-.beach-status.safe {
-    color: green;
-}
-
-.beach-status.unsafe {
-    color: red;
+    to {
+        opacity: 1;
+    }
 }
