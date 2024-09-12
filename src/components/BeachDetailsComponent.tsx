@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
+import axios from 'axios';
 import { Beach } from '../types/types';
-//import HeaderComponent from './HeaderComponent';
 import './BeachDetailsComponent.css';
 
 const BeachDetailsComponent: React.FC = () => {
@@ -14,60 +14,69 @@ const BeachDetailsComponent: React.FC = () => {
     windSpeed: '10 km/h',
     funFacts: 'Great for swimming and sunbathing.',
     sources: ['Source 1', 'Source 2'],
-    comments: ['Nice place!', 'Very clean and friendly.']
+    comments: [],
   });
   const [newComment, setNewComment] = useState('');
-  const navigate = useNavigate(); // Initialize the useNavigate hook
+  const navigate = useNavigate();
+  const [comments, setComments] = useState<string[]>([]); // Store comments from the database
 
   useEffect(() => {
+    // Fetch the beach details (simulated from local storage for now)
     const fetchBeachDetails = () => {
       const storedData = localStorage.getItem(name || '');
       if (storedData) {
         const parsedData = JSON.parse(storedData);
-
         setBeach((prevState) => ({
           ...prevState,
           ...parsedData,
-          name: name || prevState.name,
-          description: parsedData.description || prevState.description,
-          quality: parsedData.quality || prevState.quality,
-          temperature: parsedData.temperature || prevState.temperature,
-          windSpeed: parsedData.windSpeed || prevState.windSpeed,
-          funFacts: parsedData.funFacts || prevState.funFacts,
-          sources: parsedData.sources || prevState.sources,
-          comments: parsedData.comments || prevState.comments,
         }));
       }
     };
 
     fetchBeachDetails();
 
-    // Optional: Poll for changes if localStorage is updated from elsewhere
-    const intervalId = setInterval(fetchBeachDetails, 1000); // Check every second
+    // Fetch comments from the backend
+    const fetchComments = async () => {
+      try {
+        axios.get(`http://127.0.0.1:8000/api/beaches/2/comments/`).then((response) => {
+          setComments(response.data.map((comment: { user_name: string, text: string, timestamp: string }) => {
+            return `${comment.user_name}: ${comment.text} ${new Date(comment.timestamp).toLocaleString()}`;
+          }));
+        });
+      } catch (error) {
+        console.error('Error fetching comments:', error);
+      }
+    };
 
-    return () => clearInterval(intervalId); // Cleanup on unmount
+    fetchComments();
   }, [name]);
 
-  const handleCommentSubmit = (e: React.FormEvent) => {
+  const handleCommentSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-
+  
     if (newComment.trim() === '') return;
-
-    const updatedComments = [...beach.comments, newComment];
-    setBeach((prevState) => ({
-      ...prevState,
-      comments: updatedComments,
-    }));
-
-    // Save to local storage
-    localStorage.setItem(name || '', JSON.stringify({ ...beach, comments: updatedComments }));
-
-    setNewComment(''); // Clear the input after submission
+  
+    try {
+      // Post the new comment to the backend
+      await axios.post(`http://127.0.0.1:8000/api/beaches/2/comments/`, { text: newComment });
+  
+      // After posting, fetch comments again to reflect the new one
+      const response = await axios.get(`http://127.0.0.1:8000/api/beaches/2/comments/`);
+      
+      // Update the comments state with the new list
+      setComments(response.data.map((comment: { user_name: string, text: string, timestamp: string }) => {
+        return `${comment.user_name}: ${comment.text} ${new Date(comment.timestamp).toLocaleString()}`;
+      }));
+      
+      setNewComment(''); // Clear the input after submission
+  
+    } catch (error) {
+      console.error('Error submitting comment:', error);
+    }
   };
-
+  
   return (
     <div className="beach-details">
-      {/* <HeaderComponent /> */}
       <button className="back-button" onClick={() => navigate('/')}>
         &larr; Back to Home
       </button>
@@ -88,18 +97,10 @@ const BeachDetailsComponent: React.FC = () => {
             <strong>Fun Facts:</strong> {beach.funFacts}
           </div>
         </div>
-        <div className="beach-sources">
-          <h3>Sources:</h3>
-          <ul>
-            {beach.sources.map((source, index) => (
-              <li key={index}>{source}</li>
-            ))}
-          </ul>
-        </div>
         <div className="beach-comments">
           <h3>Comments:</h3>
           <ul>
-            {beach.comments.map((comment, index) => (
+            {comments.map((comment, index) => (
               <li key={index}>{comment}</li>
             ))}
           </ul>
