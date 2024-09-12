@@ -13,33 +13,55 @@ const ReportPageComponent: React.FC = () => {
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
 
-    // Update the stored data for the selected beach
+    if (!selectedBeach || rating === null) {
+      alert('Please select a beach and provide a rating.');
+      return; // Ensure both a beach is selected and a rating is provided
+    }
+
+    // Get stored data for the selected beach or initialize new data
     const storedData = localStorage.getItem(selectedBeach);
     const parsedData = storedData ? JSON.parse(storedData) : { reports: [], ratings: [] };
 
+    // Update the data with the new report and rating
     const updatedData = {
       ...parsedData,
       reports: [...parsedData.reports, report],
       ratings: [...parsedData.ratings, rating],
     };
 
-    localStorage.setItem(selectedBeach, JSON.stringify(updatedData));
+    // Calculate the average rating
+    const totalRatings = updatedData.ratings.reduce((sum: number, current: number) => sum + current, 0);
+    const averageRating = totalRatings / updatedData.ratings.length;
 
-    setReport(''); // Clear form after submission
-    setRating(null);
-    setHoverRating(null);
+    // Save updated data and average rating in localStorage
+    localStorage.setItem(selectedBeach, JSON.stringify({ ...updatedData, averageRating }));
+
+    // Reset the form fields
+    setReport('');
+    setRating(null); // Clear the rating
+    setHoverRating(null); // Clear the hover effect
     setSelectedBeach('');
     setSuccessMessage('Report submitted successfully');
+
+    // Clear the success message after 3 seconds
+    setTimeout(() => {
+      setSuccessMessage('');
+    }, 3000);
   };
 
   return (
     <div className="report-page">
       <h2>Submit a Beach Report</h2>
-      {successMessage && <p className="success-message">{successMessage}</p>}
+      {successMessage && <p className="success-message">{successMessage}</p>} {/* Show success message */}
 
       <form onSubmit={handleSubmit} className="report-form">
         <label className="form-label">Select Beach:</label>
-        <select value={selectedBeach} onChange={(e) => setSelectedBeach(e.target.value)} required className="form-select">
+        <select
+          value={selectedBeach}
+          onChange={(e) => setSelectedBeach(e.target.value)}
+          required
+          className="form-select"
+        >
           <option value="">Select a beach</option>
           {beaches.map((beach, index) => (
             <option key={index} value={beach}>{beach}</option>

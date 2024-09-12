@@ -1,0 +1,20 @@
+.webcam-page {
+    padding: 20px;
+    text-align: center;
+    font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+}
+
+.webcam-list {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+}
+
+.webcam-item {
+    margin: 20px;
+}
+
+iframe {
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
