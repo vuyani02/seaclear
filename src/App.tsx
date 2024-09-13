@@ -41,7 +41,7 @@ class App extends Component<{}, State> {
             <Routes>
               <Route path="/" element={<HomePageComponent />} />
               <Route path="/map" element={<MapPage />} />
-              <Route path="/beach/:name" element={<BeachDetailsComponent />} />
+              <Route path="/beach/:urlName" element={<BeachDetailsComponent />} />
               <Route
                 path="/login"
                 element={

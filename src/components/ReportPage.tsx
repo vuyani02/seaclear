@@ -1,52 +1,75 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import './ReportPage.css';
+import axios from 'axios';
 
 const ReportPageComponent: React.FC = () => {
-  const [selectedBeach, setSelectedBeach] = useState('');
+  const [selectedBeach, setSelectedBeach] = useState<string>(''); // Store the selected beach name
   const [rating, setRating] = useState<number | null>(null); // Store the user's rating
   const [hoverRating, setHoverRating] = useState<number | null>(null); // For hover effect
   const [report, setReport] = useState('');
+  const [source, setSource] = useState('');
   const [successMessage, setSuccessMessage] = useState('');
 
-  const beaches = ['Beach 1', 'Beach 2', 'Beach 3']; // Add available beaches here
+  type Beach = {
+    id: number;
+    name: string;
+  }
 
-  const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
+  const [beaches, setBeaches] = useState<Beach[]>([]);
 
-    if (!selectedBeach || rating === null) {
-      alert('Please select a beach and provide a rating.');
-      return; // Ensure both a beach is selected and a rating is provided
-    }
-
-    // Get stored data for the selected beach or initialize new data
-    const storedData = localStorage.getItem(selectedBeach);
-    const parsedData = storedData ? JSON.parse(storedData) : { reports: [], ratings: [] };
-
-    // Update the data with the new report and rating
-    const updatedData = {
-      ...parsedData,
-      reports: [...parsedData.reports, report],
-      ratings: [...parsedData.ratings, rating],
+  useEffect(() => {
+    // Fetch the beach details
+    const fetchBeachDetails = async () => {
+      try {
+        const response = await axios.get('http://127.0.0.1:8000/api/beaches/');
+        setBeaches(response.data.map((beach: { name: string, id: number }) => {
+          return { name: beach.name, id: beach.id };
+        }));
+      } catch (error) {
+        console.error('Error fetching beaches:', error);
+      }
     };
 
-    // Calculate the average rating
-    const totalRatings = updatedData.ratings.reduce((sum: number, current: number) => sum + current, 0);
-    const averageRating = totalRatings / updatedData.ratings.length;
+    fetchBeachDetails();
+  }, []);
 
-    // Save updated data and average rating in localStorage
-    localStorage.setItem(selectedBeach, JSON.stringify({ ...updatedData, averageRating }));
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault(); // Prevent the default form submission behavior
 
-    // Reset the form fields
-    setReport('');
-    setRating(null); // Clear the rating
-    setHoverRating(null); // Clear the hover effect
-    setSelectedBeach('');
-    setSuccessMessage('Report submitted successfully');
+    // Find the beach object based on the selected beach name
+    const selectedBeachObj = beaches.find(beach => beach.name === selectedBeach);
 
-    // Clear the success message after 3 seconds
-    setTimeout(() => {
-      setSuccessMessage('');
-    }, 3000);
+    // Check if both a beach is selected and a rating is provided
+    if (!selectedBeachObj || rating === null) {
+      alert('Please select a beach and provide a rating.');
+      return; // Exit the function if conditions aren't met
+    }
+
+    try {
+      // Make a POST request to submit the report data to the backend
+      await axios.post(`http://127.0.0.1:8000/api/beaches/${selectedBeachObj.id}/reports/`, {
+        beach: selectedBeachObj.id, // The selected beach id
+        report: report, // The report text
+        source: source, // Optional source URL provided by the user
+        rating: rating, // User's rating
+      });
+
+      // Reset the form fields after successful submission
+      setReport('');
+      setRating(null);
+      setHoverRating(null);
+      setSelectedBeach('');
+      setSource('');
+
+      // Show a success message for 3 seconds
+      setSuccessMessage('Report submitted successfully');
+      setTimeout(() => {
+        setSuccessMessage(''); // Clear the message after 3 seconds
+      }, 3000);
+    } catch (error) {
+      // Log the error in case of a failed submission
+      console.error('Error submitting report:', error);
+    }
   };
 
   return (
@@ -58,13 +81,15 @@ const ReportPageComponent: React.FC = () => {
         <label className="form-label">Select Beach:</label>
         <select
           value={selectedBeach}
-          onChange={(e) => setSelectedBeach(e.target.value)}
+          onChange={(e) => setSelectedBeach(e.target.value)} // Store the beach name as a string
           required
           className="form-select"
         >
           <option value="">Select a beach</option>
-          {beaches.map((beach, index) => (
-            <option key={index} value={beach}>{beach}</option>
+          {beaches.map((beach) => (
+            <option key={beach.id} value={beach.name}>
+              {beach.name}
+            </option>
           ))}
         </select>
 
@@ -82,6 +107,14 @@ const ReportPageComponent: React.FC = () => {
             </span>
           ))}
         </div>
+
+        <label className="form-label">Source (if applicable):</label>
+        <textarea
+          value={source}
+          onChange={(e) => setSource(e.target.value)}
+          placeholder="Enter the url of the source"
+          className="form-textarea"
+        />
 
         <label className="form-label">Report:</label>
         <textarea

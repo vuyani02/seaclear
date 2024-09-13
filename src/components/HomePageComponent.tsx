@@ -13,6 +13,7 @@ const HomePageComponent: React.FC = () => {
   //axios get beach from database
   type tBeach ={
     name: string;
+    urlName: string;
     description: string;
     status: string;
   }
@@ -55,7 +56,7 @@ const HomePageComponent: React.FC = () => {
         {filteredBeaches.length > 0 ? (
           filteredBeaches.map(beach => (
             <div key={beach.name} className="beach-item">
-              <Link to={`/beach/${beach.name}`} className="beach-link">
+              <Link to={`/beach/${beach.urlName}`} className="beach-link">
                 <h3>{beach.name}</h3>
               </Link>
               <p>{beach.description}</p>
