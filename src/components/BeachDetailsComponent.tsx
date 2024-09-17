@@ -3,7 +3,7 @@ import { useParams, useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import { Beach } from '../types/types';
 import './BeachDetailsComponent.css';
-
+ 
 const BeachDetailsComponent: React.FC = () => {
   const { urlName } = useParams<{ urlName: string }>();
   const [beach, setBeach] = useState<Beach>({
@@ -28,14 +28,14 @@ const BeachDetailsComponent: React.FC = () => {
   const [newComment, setNewComment] = useState('');
   const [comments, setComments] = useState<string[]>([]); // Store comments from the database
   const navigate = useNavigate();
-
+ 
   // Fetch the beach details from the API
   useEffect(() => {
     const fetchBeachDetails = async () => {
       try {
-        const response = await axios.get(`http://127.0.0.1:8000/api/beaches/${urlName}/`); 
+        const response = await axios.get(`http://127.0.0.1:8000/api/beaches/${urlName}/`);
         const beachData = response.data;
-        
+       
         // Set the beach details to the state
         setBeach({
           id: beachData.id,
@@ -53,10 +53,10 @@ const BeachDetailsComponent: React.FC = () => {
           sunday_temperature: beachData.sunday_temperature,
           sunday_rain: beachData.sunday_rain,
           sunday_wind_speed: beachData.sunday_wind_speed,
-          funFacts: beachData.funFacts, 
-          comments: [], 
+          funFacts: beachData.funFacts,
+          comments: [],
         });
-
+ 
         // Fetch the comments related to this beach
         const commentsResponse = await axios.get(`http://127.0.0.1:8000/api/beaches/${beachData.id}/comments/`);
         setComments(commentsResponse.data.map((comment: { user_name: string, text: string, timestamp: string }) => {
@@ -66,36 +66,36 @@ const BeachDetailsComponent: React.FC = () => {
         console.error('Error fetching beach details:', error);
       }
     };
-
+ 
     if (urlName) {
       fetchBeachDetails();
     }
   }, [urlName]); // The effect will run when the beach name changes
-
+ 
   // Handle new comment submission
   const handleCommentSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-
+ 
     if (newComment.trim() === '') return;
-
+ 
     try {
       // Post the new comment to the backend
       await axios.post(`http://127.0.0.1:8000/api/beaches/${beach.id}/comments/`, { text: newComment });
-
+ 
       // After posting, fetch comments again to reflect the new one
       const response = await axios.get(`http://127.0.0.1:8000/api/beaches/${beach.id}/comments/`);
-      
+     
       // Update the comments state with the new list
       setComments(response.data.map((comment: { user_name: string, text: string, timestamp: string }) => {
         return `${comment.user_name}: ${comment.text} ${new Date(comment.timestamp).toLocaleString()}`;
       }));
-      
+     
       setNewComment(''); // Clear the input after submission
     } catch (error) {
       console.error('Error submitting comment:', error);
     }
   };
-
+ 
   return (
     <div className="beach-details">
       <button className="back-button" onClick={() => navigate('/')}>
@@ -163,5 +163,5 @@ const BeachDetailsComponent: React.FC = () => {
     </div>
   );
 };
-
+ 
 export default BeachDetailsComponent;
