@@ -49,9 +49,8 @@ const ReportPageComponent: React.FC = () => {
       // Make a POST request to submit the report data to the backend
       await axios.post(`http://127.0.0.1:8000/api/beaches/${selectedBeachObj.id}/reports/`, {
         beach: selectedBeachObj.id, // The selected beach id
-        report: report, // The report text
+        detail: report, // The report text
         source: source, // Optional source URL provided by the user
-        rating: rating, // User's rating
       });
 
       // Reset the form fields after successful submission
