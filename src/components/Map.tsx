@@ -3,7 +3,7 @@ import "./mapstyle.css"
 import "leaflet/dist/leaflet.css"
 import React, { useEffect, useState } from "react";
 import { MapContainer, Marker, Popup, TileLayer, useMap } from "react-leaflet";
-import { LatLngExpression, marker } from "leaflet";
+import { Icon, LatLngExpression, marker } from "leaflet";
 
 export type tMap ={
   coordinateLat: number;
@@ -60,6 +60,16 @@ export default function Map() {
     return beaches?.find(beach => beach.id === mapId);
   };
 
+  // Function to create custom icons based on beach status
+  const getMarkerIcon = (status: string): Icon => {
+    return new Icon({
+      iconUrl: status === "Unsafe to Swim" ? '/default-icon.png' : '/unsafe-icon.png',
+      iconSize: [50, 50], // Size of the icon
+      iconAnchor: [25, 50], // Anchor point
+      popupAnchor: [0, -50], // Popup anchor point
+    });
+  };
+
   return (
     <MapContainer  
          center={[-33.9289920, 18.4173960]}
@@ -72,10 +82,17 @@ export default function Map() {
       />      
       {mapDetail && mapDetail.map((item, index) => {
         const beach = getBeachData(item.beach);
+        const markerIcon = beach ? getMarkerIcon(beach.status) : new Icon({
+          iconUrl: '/default-icon.png', // Fallback
+          iconSize: [50, 50],
+          iconAnchor: [25, 50],
+          popupAnchor: [0, -50],
+        });
         return (
           <Marker
             key={index} // Add a unique key to each Marker
             position={[item.coordinateLat, item.coordinateLong] as LatLngExpression}
+            icon={markerIcon}
           >
             <Popup>
               <div>
