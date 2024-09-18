@@ -22,6 +22,7 @@ const BeachDetailsComponent: React.FC = () => {
     sunday_temperature: 0,
     sunday_rain: '',
     sunday_wind_speed: 0,
+    picture: '',
     funFacts: '',
     comments: [],
   });
@@ -53,6 +54,7 @@ const BeachDetailsComponent: React.FC = () => {
           sunday_temperature: beachData.sunday_temperature,
           sunday_rain: beachData.sunday_rain,
           sunday_wind_speed: beachData.sunday_wind_speed,
+          picture: beachData.picture,
           funFacts: beachData.funFacts,
           comments: [],
         });
@@ -103,6 +105,9 @@ const BeachDetailsComponent: React.FC = () => {
       </button>
       <div className="beach-details-content">
         <h2 className="beach-name">{beach.name}</h2>
+        {beach.picture && (
+        <img src={beach.picture} alt={`${beach.name} beach`} className="beach-picture" />
+      )}
         <p className="beach-description">{beach.description}</p>
         <div className="beach-details-info">
           <div className="info-item">

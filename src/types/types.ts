@@ -15,6 +15,7 @@ export type Beach = {
   sunday_temperature: number;
   sunday_rain: string;
   sunday_wind_speed: number;
+  picture: string;
   funFacts: string;
   comments: string[];
 };

@@ -156,3 +156,10 @@
 .comment-button:hover {
     background-color: #0056b3;
 }
+
+.beach-picture {
+    width: 700px; 
+    height: 200px; 
+    object-fit: cover; 
+  }
+  
