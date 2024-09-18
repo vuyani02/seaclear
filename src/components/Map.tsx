@@ -34,6 +34,7 @@ export default function Map() {
   const url = 'http://127.0.0.1:8000/api/' // apiURL
   const [mapDetail,setmapDetail] = useState<tMap[] | null>();
   const [beaches,setbeaches] = useState<tBeach[] | null>();
+  const [userPosition, setUserPosition] = useState<[number, number] | null>(null);
   
   useEffect(() =>{
     axios.get(url + 'map/')
@@ -70,6 +71,29 @@ export default function Map() {
     });
   };
 
+  // Get the user's current position using the geolocation API
+  useEffect(() => {
+    if (navigator.geolocation) {
+      navigator.geolocation.getCurrentPosition(
+        (position) => {
+          const { latitude, longitude } = position.coords;
+          setUserPosition([latitude, longitude]);
+        },
+        (error) => {
+          console.error("Error getting the user's location", error);
+        }
+      );
+    }
+  }, []);
+
+  //user icon setup
+  const userIcon = new Icon({
+    iconUrl: '/user.jpg', 
+    iconSize: [50, 50], // Size of the icon
+    iconAnchor: [25, 50], // Anchor point
+    popupAnchor: [0, -50], // Popup anchor point
+  });
+
   return (
     <MapContainer  
          center={[-33.9289920, 18.4173960]}
@@ -79,7 +103,17 @@ export default function Map() {
       <TileLayer
         attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
         url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
-      />      
+      />
+
+      {/* User's current location marker */}
+      {userPosition && (
+        <Marker position={userPosition as LatLngExpression} icon={userIcon}>
+          <Popup>
+            This is your position.
+          </Popup>
+        </Marker>
+      )}
+
       {mapDetail && mapDetail.map((item, index) => {
         const beach = getBeachData(item.beach);
         const markerIcon = beach ? getMarkerIcon(beach.status) : new Icon({
