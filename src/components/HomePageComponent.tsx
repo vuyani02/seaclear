@@ -4,18 +4,13 @@ import './HomePageComponent.css'; // Import the CSS file for styling
 import axios from 'axios';
 
 const HomePageComponent: React.FC = () => {
-  // const beaches = [
-  //   { name: 'Beach 1', description: 'A popular beach with clear waters.', status: 'SAFE' },
-  //   { name: 'Beach 2', description: 'A quieter beach with occasional pollution.', status: 'UNSAFE' },
-  //   // Add more beach entries here
-  // ];
-
-  //axios get beach from database
+  
   type tBeach ={
     name: string;
     urlName: string;
     description: string;
     status: string;
+    location: string;
   }
 
   const [beaches,setBeaches] = useState<tBeach[] | null>();
@@ -34,7 +29,8 @@ const HomePageComponent: React.FC = () => {
   const [searchQuery, setSearchQuery] = useState('');
 
   const filteredBeaches = (beaches || []).filter(beach =>
-    beach.name.toLowerCase().includes(searchQuery.toLowerCase())
+    beach.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
+     beach.location.toLowerCase().includes(searchQuery.toLowerCase())
   );
 
   return (
