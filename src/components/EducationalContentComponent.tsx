@@ -19,7 +19,7 @@ const EducationalContentComponent: React.FC = () => {
 
   useEffect(() => {
     axios
-      .get(url + 'EducationalContent/') // Adjust the endpoint as needed
+      .get(url + 'EducationalContent/') 
       .then((response) => {
         setEducationalContent(response.data);
         setLoading(false); // Set loading to false after fetching data

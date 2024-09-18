@@ -1,19 +1,32 @@
-import React from 'react';
+import React, { useState } from 'react';
 import './WebcamPage.css'; // Add your styles here
 
 const WebcamPageComponent: React.FC = () => {
+  const [searchTerm, setSearchTerm] = useState('');
+
   // Example beach webcam links
   const beachWebcams = [
-    { name: 'Beach 1', youtubeLink: 'https://www.surfline.com/surf-report/muizenberg/584204204e65fad6a77094b7?camId=6299f622df6f2e126154ad17&view=table' }, 
-    { name: 'Beach 2', youtubeLink: 'https://www.surfline.com/surf-report/llandudno/604f9d394046841199fe5d9b?view=table' }, 
-    // Add more beaches and links here
+    { name: 'Strand Beach', youtubeLink: 'https://www.youtube.com/embed/k19xR19WKCk' }, 
+    { name: 'Muizenberg Beach', youtubeLink: 'https://www.youtube.com/embed/oXItWNjqnbc' }, 
+    { name: 'Clifton 4th Beach', youtubeLink: 'https://www.youtube.com/embed/eT_W9pSC3mY' }, 
   ];
+
+  const filteredWebcams = beachWebcams.filter(beach =>
+    beach.name.toLowerCase().includes(searchTerm.toLowerCase())
+  );
 
   return (
     <div className="webcam-page">
       <h2>Beach Webcams</h2>
+      <input
+        type="text"
+        placeholder="Search for a beach..."
+        value={searchTerm}
+        onChange={(e) => setSearchTerm(e.target.value)}
+        className="search-bar"
+      />
       <div className="webcam-list">
-        {beachWebcams.map((beach, index) => (
+        {filteredWebcams.map((beach, index) => (
           <div key={index} className="webcam-item">
             <h3>{beach.name}</h3>
             <iframe
