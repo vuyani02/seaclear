@@ -1,36 +1,62 @@
-import React from 'react';
-//import HeaderComponent from './HeaderComponent';
+import React, { useEffect, useState } from 'react';
 import './EducationalContentComponent.css'; // Import the CSS file for styling
+import axios from 'axios';
+
+type tEducationContent = {
+  title1: string;
+  detail1: string;
+  title2: string;
+  detail2: string;
+  source: string;
+};
 
 const EducationalContentComponent: React.FC = () => {
+  const [educationalContent, setEducationalContent] = useState<tEducationContent[] | null>(null);
+  const [loading, setLoading] = useState<boolean>(true); // Loading state
+  const [error, setError] = useState<string | null>(null); // Error state
+
+  const url = 'http://127.0.0.1:8000/api/'; // API URL
+
+  useEffect(() => {
+    axios
+      .get(url + 'EducationalContent/') // Adjust the endpoint as needed
+      .then((response) => {
+        setEducationalContent(response.data);
+        setLoading(false); // Set loading to false after fetching data
+      })
+      .catch((error) => {
+        console.error('Failed to fetch educational content', error);
+        setError('Unable to load educational content. Please try again later.');
+        setLoading(false);
+      });
+  }, []);
+
+  if (loading) {
+    return <div>Loading...</div>; // Loader
+  }
+
+  if (error) {
+    return <div>{error}</div>; // Error message
+  }
+
   return (
     <div className="educational-content">
-      {/* <HeaderComponent /> */}
       <div className="content-container">
         <h2>Educational Content</h2>
-        <section className="section">
-          <h3>Understanding Water Quality</h3>
-          <p>
-            Water quality is crucial for safe and enjoyable beach experiences. Key indicators include:
-          </p>
-          <ul>
-            <li><strong>pH Level:</strong> Measures the acidity or alkalinity of the water. Ideal pH ranges from 6.5 to 8.5.</li>
-            <li><strong>Temperature:</strong> Affects comfort and safety. Cold temperatures may deter swimming, while warmer temperatures can encourage it.</li>
-            <li><strong>Contaminants:</strong> Check for pollutants like bacteria, chemicals, and debris that can impact health.</li>
-          </ul>
-        </section>
-        <section className="section">
-          <h3>Why Water Quality Matters</h3>
-          <p>
-            Good water quality ensures the safety of swimmers and preserves the beach environment. Regular monitoring helps prevent health issues and maintain a pleasant beach experience.
-          </p>
-        </section>
-        <section className="section">
-          <h3>How to Report Issues</h3>
-          <p>
-            If you notice any issues with water quality or other beach conditions, please use the 'Submit Report' feature on the beach details page. Ensure you're logged in to submit a report.
-          </p>
-        </section>
+        {educationalContent && educationalContent.length > 0 ? (
+          educationalContent.map((section, index) => (
+            <section className="section" key={index}>
+              <h3>{section.title1}</h3>
+              <p>{section.detail1}</p>
+              <h3>{section.title2}</h3>
+              <p>{section.detail2}</p>
+              <h3>{"Source"}</h3>
+              <p>{section.source}</p>
+            </section>
+          ))
+        ) : (
+          <p>No educational content found.</p>
+        )}
       </div>
     </div>
   );
