@@ -114,6 +114,9 @@ const BeachDetailsComponent: React.FC = () => {
             <strong>Quality:</strong> {beach.status}
           </div>
           <div className="info-item">
+            <strong>Location:</strong> {beach.location}
+          </div>
+          <div className="info-item">
             <strong>Current temperature:</strong> {beach.current_temperature + "°C"}
           </div>
           <div className="info-item">
