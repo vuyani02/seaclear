@@ -218,7 +218,7 @@ const BeachDetailsComponent: React.FC = () => {
         {/* Average Rating */}
         <div className="average-rating">
         <strong>Average Rating: </strong>
-           {beach.average_rating !== null ? (
+           {beach.average_rating !== null &&  beach.average_rating !== 0 ? (
           <>
             <h5>{Math.floor(beach.average_rating)}</h5>
             {renderStars(beach.average_rating)}
