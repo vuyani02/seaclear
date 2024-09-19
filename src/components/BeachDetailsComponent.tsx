@@ -3,7 +3,25 @@ import { useParams, useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import { Beach } from '../types/types';
 import './BeachDetailsComponent.css';
- 
+
+const renderStars = (rating: number) => {
+  const fullStars = Math.floor(rating); // Full stars, rounded down
+  const emptyStars = 5 - fullStars; // Remaining stars are empty
+
+  return (
+    <div className="star-rating">
+      {[...Array(fullStars)].map((_, index) => (
+        <span key={index} className="star filled">★</span>
+      ))}
+      {[...Array(emptyStars)].map((_, index) => (
+        <span key={fullStars + index} className="star empty">★</span>
+      ))}
+    </div>
+  );
+};
+
+
+
 const BeachDetailsComponent: React.FC = () => {
   const { urlName } = useParams<{ urlName: string }>();
   const [beach, setBeach] = useState<Beach>({
@@ -24,8 +42,12 @@ const BeachDetailsComponent: React.FC = () => {
     sunday_wind_speed: 0,
     picture: '',
     funFacts: '',
+    average_rating: 0,
     comments: [],
   });
+
+  const [rating, setRating] = useState<number | null>(null); // Store the user's rating
+  const [hoverRating, setHoverRating] = useState<number | null>(null); // For hover effect
   const [newComment, setNewComment] = useState('');
   const [comments, setComments] = useState<string[]>([]); // Store comments from the database
   const navigate = useNavigate();
@@ -56,6 +78,7 @@ const BeachDetailsComponent: React.FC = () => {
           sunday_wind_speed: beachData.sunday_wind_speed,
           picture: beachData.picture,
           funFacts: beachData.funFacts,
+          average_rating: beachData.average_rating,
           comments: [],
         });
  
@@ -64,6 +87,18 @@ const BeachDetailsComponent: React.FC = () => {
         setComments(commentsResponse.data.map((comment: { user_name: string, text: string, timestamp: string }) => {
           return `${comment.user_name}: ${comment.text} ${new Date(comment.timestamp).toLocaleString()}`;
         }));
+
+        
+          const responseA = await axios.get(`http://127.0.0.1:8000/api/beaches/${urlName}/`);
+          
+          // Update the beach state with the new average_rating
+          setBeach((prevBeach) => ({
+            ...prevBeach,
+            average_rating: responseA.data.average_rating,
+            comments: prevBeach.comments,
+          }));
+        
+        
       } catch (error) {
         console.error('Error fetching beach details:', error);
       }
@@ -77,22 +112,51 @@ const BeachDetailsComponent: React.FC = () => {
   // Handle new comment submission
   const handleCommentSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
- 
-    if (newComment.trim() === '') return;
+    
+    if (newComment.trim() === '' && (rating === 0 || rating === null)){
+      alert("Enter a comment and a rating"); 
+      return;
+    }
+    
+    else if (newComment.trim() === ''){
+      alert("Enter a comment"); 
+      return;}
+
+    else if (rating === 0 || rating === null){
+      alert("Enter a rating"); 
+      return;}  
  
     try {
       // Post the new comment to the backend
-      await axios.post(`http://127.0.0.1:8000/api/beaches/${beach.id}/comments/`, { text: newComment });
+      await axios.post(`http://127.0.0.1:8000/api/beaches/${beach.id}/comments/`, { 
+        text: newComment,
+        rating: rating || 0
+       });
  
       // After posting, fetch comments again to reflect the new one
-      const response = await axios.get(`http://127.0.0.1:8000/api/beaches/${beach.id}/comments/`);
+      const Cresponse = await axios.get(`http://127.0.0.1:8000/api/beaches/${beach.id}/comments/`);
      
       // Update the comments state with the new list
-      setComments(response.data.map((comment: { user_name: string, text: string, timestamp: string }) => {
+      setComments(Cresponse.data.map((comment: { user_name: string, text: string, timestamp: string, rating: number }) => {
         return `${comment.user_name}: ${comment.text} ${new Date(comment.timestamp).toLocaleString()}`;
       }));
-     
+
       setNewComment(''); // Clear the input after submission
+      setRating(null);
+
+      // Calculate the average rating after setting the comments
+      
+        const responseB = await axios.get(`http://127.0.0.1:8000/api/beaches/${urlName}/`);
+        
+        // Update the beach state with the new average_rating
+        setBeach((prevBeach) => ({
+          ...prevBeach,
+          average_rating: responseB.data.average_rating,
+          comments: prevBeach.comments,
+        }));
+      
+      
+      
     } catch (error) {
       console.error('Error submitting comment:', error);
     }
@@ -146,15 +210,49 @@ const BeachDetailsComponent: React.FC = () => {
           <div className="info-item">
             <strong>Fun Facts:</strong> {beach.funFacts}
           </div>
+
         </div>
         <div className="beach-comments">
+        <div>
+      
+        {/* Average Rating */}
+        <div className="average-rating">
+        <strong>Average Rating: </strong>
+           {beach.average_rating !== null ? (
+          <>
+            <h5>{Math.floor(beach.average_rating)}</h5>
+            {renderStars(beach.average_rating)}
+          </>
+        ) : (
+          'No ratings yet'
+        )}
+        </div>
+    </div>
+
           <h3>Comments:</h3>
           <ul>
             {comments.map((comment, index) => (
               <li key={index}>{comment}</li>
             ))}
           </ul>
+
           <form onSubmit={handleCommentSubmit} className="comment-form">
+            
+          <label className="form-label">Rate the Beach (out of 5):</label>
+          <div className="star-rating">
+            {[1, 2, 3, 4, 5].map((star) => (
+              <span
+                key={star}
+                className={`star ${rating && rating >= star ? 'filled' : ''} ${hoverRating && hoverRating >= star ? 'hovered' : ''}`}
+                onClick={() => setRating(star)}
+                onMouseEnter={() => setHoverRating(star)}
+                onMouseLeave={() => setHoverRating(null)}
+              >
+                ★
+              </span>
+          ))}
+          </div>
+            
             <input
               type="text"
               placeholder="Add a comment..."

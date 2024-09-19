@@ -4,8 +4,6 @@ import axios from 'axios';
 
 const ReportPageComponent: React.FC = () => {
   const [selectedBeach, setSelectedBeach] = useState<string>(''); // Store the selected beach name
-  const [rating, setRating] = useState<number | null>(null); // Store the user's rating
-  const [hoverRating, setHoverRating] = useState<number | null>(null); // For hover effect
   const [report, setReport] = useState('');
   const [source, setSource] = useState('');
   const [successMessage, setSuccessMessage] = useState('');
@@ -40,8 +38,8 @@ const ReportPageComponent: React.FC = () => {
     const selectedBeachObj = beaches.find(beach => beach.name === selectedBeach);
 
     // Check if both a beach is selected and a rating is provided
-    if (!selectedBeachObj || rating === null) {
-      alert('Please select a beach and provide a rating.');
+    if (!selectedBeachObj) {
+      alert('Please select a beach');
       return; // Exit the function if conditions aren't met
     }
 
@@ -55,8 +53,6 @@ const ReportPageComponent: React.FC = () => {
 
       // Reset the form fields after successful submission
       setReport('');
-      setRating(null);
-      setHoverRating(null);
       setSelectedBeach('');
       setSource('');
 
@@ -91,21 +87,6 @@ const ReportPageComponent: React.FC = () => {
             </option>
           ))}
         </select>
-
-        <label className="form-label">Rate the Beach (out of 5):</label>
-        <div className="star-rating">
-          {[1, 2, 3, 4, 5].map((star) => (
-            <span
-              key={star}
-              className={`star ${rating && rating >= star ? 'filled' : ''} ${hoverRating && hoverRating >= star ? 'hovered' : ''}`}
-              onClick={() => setRating(star)}
-              onMouseEnter={() => setHoverRating(star)}
-              onMouseLeave={() => setHoverRating(null)}
-            >
-              ★
-            </span>
-          ))}
-        </div>
 
         <label className="form-label">Source (if applicable):</label>
         <textarea

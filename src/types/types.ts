@@ -17,5 +17,6 @@ export type Beach = {
   sunday_wind_speed: number;
   picture: string;
   funFacts: string;
+  average_rating: number,
   comments: string[];
 };

@@ -65,9 +65,15 @@
     margin-bottom: 30px;
 }
 
-.star-rating {
+/*.star-rating {
     display: flex;
     align-items: center;
+}*/
+
+.star-rating {
+    display: flex;
+    justify-content: flex-start;
+    margin-bottom: 20px;
 }
 
 .star {
@@ -161,5 +167,19 @@
     width: 700px; 
     height: 200px; 
     object-fit: cover; 
+  }
+
+.star.half-filled::before {
+    content: "★";
+    position: relative;
+    color: lightgray; /* Empty part */
+  }
+  
+.star.half-filled::after {
+    content: "★";
+    position: absolute;
+    color: gold; /* Filled part */
+    width: 50%;
+    overflow: hidden;
   }
   
