@@ -6,6 +6,11 @@ body {
     box-sizing: border-box;
 }
 
+.demo{
+    background-color: red;
+    padding: 0.2rem;
+}
+
 .home-page {
     font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
     background-color: #f4f7f9;

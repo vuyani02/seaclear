@@ -35,6 +35,7 @@ const HomePageComponent: React.FC = () => {
 
   return (
     <div className="home-page">
+      <p className="demo">The information on this website about the beaches is not true, it is just for demostration purpoeses.</p>
       <div className="search-section">
         <input
           type="text"
