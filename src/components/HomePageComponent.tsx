@@ -14,7 +14,7 @@ const HomePageComponent: React.FC = () => {
   }
 
   const [beaches,setBeaches] = useState<tBeach[] | null>();
-  const url = 'http://127.0.0.1:8000/api/' // apiURL
+  const url = 'https://seaclear.onrender.com/api/' // apiURL
   useEffect(() =>{
     axios.get(url + 'beaches/')
     .then((response) => {
@@ -30,7 +30,7 @@ const HomePageComponent: React.FC = () => {
 
   const filteredBeaches = (beaches || []).filter(beach =>
     beach.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
-     beach.location.toLowerCase().includes(searchQuery.toLowerCase())
+    beach.location.toLowerCase().includes(searchQuery.toLowerCase())
   );
 
   return (
