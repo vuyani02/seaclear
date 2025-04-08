@@ -15,7 +15,7 @@ const EducationalContentComponent: React.FC = () => {
   const [loading, setLoading] = useState<boolean>(true); // Loading state
   const [error, setError] = useState<string | null>(null); // Error state
 
-  const url = 'http://127.0.0.1:8000/api/'; // API URL
+  const url = 'https://seaclear.onrender.com/api/'; // API URL
 
   useEffect(() => {
     axios

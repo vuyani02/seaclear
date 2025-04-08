@@ -56,7 +56,7 @@ const BeachDetailsComponent: React.FC = () => {
   useEffect(() => {
     const fetchBeachDetails = async () => {
       try {
-        const response = await axios.get(`http://127.0.0.1:8000/api/beaches/${urlName}/`);
+        const response = await axios.get(`https://seaclear.onrender.com/api/beaches/${urlName}/`);
         const beachData = response.data;
        
         // Set the beach details to the state
@@ -83,13 +83,13 @@ const BeachDetailsComponent: React.FC = () => {
         });
  
         // Fetch the comments related to this beach
-        const commentsResponse = await axios.get(`http://127.0.0.1:8000/api/beaches/${beachData.id}/comments/`);
+        const commentsResponse = await axios.get(`https://seaclear.onrender.com/api/beaches/${beachData.id}/comments/`);
         setComments(commentsResponse.data.map((comment: { user_name: string, text: string, timestamp: string }) => {
           return `${comment.user_name}: ${comment.text} ${new Date(comment.timestamp).toLocaleString()}`;
         }));
 
         
-          const responseA = await axios.get(`http://127.0.0.1:8000/api/beaches/${urlName}/`);
+          const responseA = await axios.get(`https://seaclear.onrender.com/api/beaches/${urlName}/`);
           
           // Update the beach state with the new average_rating
           setBeach((prevBeach) => ({
@@ -128,13 +128,13 @@ const BeachDetailsComponent: React.FC = () => {
  
     try {
       // Post the new comment to the backend
-      await axios.post(`http://127.0.0.1:8000/api/beaches/${beach.id}/comments/`, { 
+      await axios.post(`https://seaclear.onrender.com/api/beaches/${beach.id}/comments/`, { 
         text: newComment,
         rating: rating || 0
        });
  
       // After posting, fetch comments again to reflect the new one
-      const Cresponse = await axios.get(`http://127.0.0.1:8000/api/beaches/${beach.id}/comments/`);
+      const Cresponse = await axios.get(`https://seaclear.onrender.com/api/beaches/${beach.id}/comments/`);
      
       // Update the comments state with the new list
       setComments(Cresponse.data.map((comment: { user_name: string, text: string, timestamp: string, rating: number }) => {
@@ -146,7 +146,7 @@ const BeachDetailsComponent: React.FC = () => {
 
       // Calculate the average rating after setting the comments
       
-        const responseB = await axios.get(`http://127.0.0.1:8000/api/beaches/${urlName}/`);
+        const responseB = await axios.get(`https://seaclear.onrender.com/api/beaches/${urlName}/`);
         
         // Update the beach state with the new average_rating
         setBeach((prevBeach) => ({
@@ -218,7 +218,7 @@ const BeachDetailsComponent: React.FC = () => {
         {/* Average Rating */}
         <div className="average-rating">
         <strong>Average Rating: </strong>
-           {beach.average_rating !== null &&  beach.average_rating !== 0 ? (
+            {beach.average_rating !== null &&  beach.average_rating !== 0 ? (
           <>
             <h5>{Math.floor(beach.average_rating)}</h5>
             {renderStars(beach.average_rating)}
@@ -269,5 +269,5 @@ const BeachDetailsComponent: React.FC = () => {
     </div>
   );
 };
- 
+
 export default BeachDetailsComponent;

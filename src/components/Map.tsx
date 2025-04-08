@@ -31,7 +31,7 @@ export type tBeach ={
 }
 
 export default function Map() {
-  const url = 'http://127.0.0.1:8000/api/' // apiURL
+  const url = 'https://seaclear.onrender.com/api/' // apiURL
   const [mapDetail,setmapDetail] = useState<tMap[] | null>();
   const [beaches,setbeaches] = useState<tBeach[] | null>();
   const [userPosition, setUserPosition] = useState<[number, number] | null>(null);

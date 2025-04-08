@@ -19,7 +19,7 @@ const ReportPageComponent: React.FC = () => {
     // Fetch the beach details
     const fetchBeachDetails = async () => {
       try {
-        const response = await axios.get('http://127.0.0.1:8000/api/beaches/');
+        const response = await axios.get('https://seaclear.onrender.com/api/beaches/');
         setBeaches(response.data.map((beach: { name: string, id: number }) => {
           return { name: beach.name, id: beach.id };
         }));
@@ -45,7 +45,7 @@ const ReportPageComponent: React.FC = () => {
 
     try {
       // Make a POST request to submit the report data to the backend
-      await axios.post(`http://127.0.0.1:8000/api/beaches/${selectedBeachObj.id}/reports/`, {
+      await axios.post(`https://seaclear.onrender.com/api/beaches/${selectedBeachObj.id}/reports/`, {
         beach: selectedBeachObj.id, // The selected beach id
         detail: report, // The report text
         source: source, // Optional source URL provided by the user
